@@ -553,6 +553,225 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
 
 /* EDITABLE AFFORDANCE HINT */
 .editable-hint{font-size:10px;color:var(--ink3);padding:7px 20px 6px;border-bottom:1px solid var(--bdr);border-left:3px solid var(--coffee);display:flex;align-items:center;gap:5px;background:#f8f4ee;font-style:italic;letter-spacing:.2px;}
+
+/* ═══════════════════════════════════════════
+   MOBILE — 768px and below
+   Rail → bottom nav, layouts stack, modals full-screen
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── LAYOUT ── */
+  body { flex-direction: column; }
+  .workspace { flex-direction: column; }
+
+  /* ── APP HEADER ── */
+  .app-header {
+    height: 52px;
+    padding: 0 16px;
+    gap: 10px;
+  }
+  .app-header-logo svg { height: 20px; }
+  .app-header-divider { display: none; }
+  .app-header-sub { display: none; }
+  #connStatus {
+    font-size: 9px;
+    letter-spacing: .5px;
+  }
+
+  /* ── RAIL → BOTTOM NAV ── */
+  .rail {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    border-right: none;
+    border-top: 2px solid var(--bdr);
+    order: 99; /* push to bottom */
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0;
+    box-shadow: 0 -2px 12px rgba(80,50,20,.08);
+  }
+  .rail-head { display: none; }
+  .rail-sec  { display: none; }
+  .rail-foot { display: none; }
+  .rail-list {
+    display: flex;
+    flex-direction: row;
+    padding: 6px 8px;
+    gap: 6px;
+    overflow-x: auto;
+    flex: 1;
+    align-items: center;
+  }
+
+  /* Rail pills → compact horizontal chips */
+  .rpill {
+    flex-shrink: 0;
+    min-width: 100px;
+    max-width: 140px;
+    padding: 7px 10px 6px;
+    margin: 0;
+    border-radius: 8px;
+  }
+  .rpill.active::before {
+    left: 0; right: 0; top: 0; bottom: auto;
+    width: auto; height: 3px;
+    border-radius: 0 0 3px 3px;
+  }
+  .rpill-top { margin-bottom: 2px; }
+  .rpill-pct { font-size: 10px; }
+  .rpill-model { font-size: 9px; }
+  .rpill-name { font-size: 11px; margin-bottom: 2px; }
+  .rpill-stage { font-size: 9px; padding: 2px 6px; margin-bottom: 3px; }
+  .rpill-bar { height: 2px; }
+  .rpill-edit { display: none; }
+  /* Hide the Launch Tracker label in compact rail */
+  .rpill > div[style*="font-size:9px"] { display: none; }
+
+  /* ── MAIN ── */
+  .main { min-height: 0; flex: 1; overflow: hidden; }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    height: auto;
+    min-height: 48px;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tb-left { min-width: 0; flex: 1; gap: 8px; }
+  .tb-title { font-size: 14px; max-width: 160px; }
+  .tb-model { display: none; }
+  .tb-tabs {
+    width: 100%;
+    overflow-x: auto;
+    padding: 2px;
+    gap: 2px;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tbtab { padding: 5px 10px; font-size: 11px; white-space: nowrap; }
+  .tb-right { gap: 4px; }
+  .tbact { padding: 5px 10px; font-size: 11px; }
+
+  /* ── HOME VIEW ── */
+  .home-wrap { padding: 16px; }
+  .home-title { font-size: 28px; }
+  .home-kpis { gap: 8px; }
+  .hkpi { padding: 10px 14px; }
+  .hkpi-val { font-size: 24px; }
+  .home-grid { grid-template-columns: 1fr; gap: 10px; }
+
+  /* ── TRACKER — stack dept sidebar above task area ── */
+  .tracker-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    min-height: 0;
+  }
+  .tracker-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px 12px;
+  }
+  .th-kpis { flex-wrap: wrap; gap: 6px; }
+  .thk { padding: 8px 12px; min-width: 56px; }
+  .thk-val { font-size: 20px; }
+
+  /* Dept sidebar → horizontal scroll row */
+  .dept-sidebar {
+    border-right: none;
+    border-bottom: 2px solid var(--bdr);
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: #eee9e0;
+    -webkit-overflow-scrolling: touch;
+  }
+  .dbtn {
+    width: auto;
+    flex-shrink: 0;
+    margin: 2px 3px;
+    padding: 7px 10px;
+    white-space: nowrap;
+    border-radius: 7px;
+  }
+  .dbtn-bar { display: none; }
+  .dbtn-count { display: none; }
+
+  /* Task table — make it scroll horizontally */
+  .task-area { overflow-x: auto; }
+  .task-table { min-width: 500px; }
+  .task-table th, .task-table td { padding: 8px 10px; }
+
+  /* ── RETAILERS ── */
+  .retailer-layout { padding: 14px 16px; }
+  .ret-grid { grid-template-columns: 1fr; }
+
+  /* ── SAMPLES ── */
+  .samples-layout { padding: 14px 16px; }
+  .samples-grid { grid-template-columns: 1fr; }
+
+  /* ── FORECAST ── */
+  .sales-layout { padding: 14px 16px; }
+  .sales-kpis { grid-template-columns: repeat(3,1fr); gap: 8px; }
+  .skpi { padding: 10px; }
+  .skpi-val { font-size: 20px; }
+  .sales-main { grid-template-columns: 1fr; }
+  .sales-right { margin-top: 0; }
+  .sales-table-card { overflow-x: auto; }
+  .sales-table { min-width: 480px; }
+
+  /* ── EXECUTIVE ── */
+  .exec-layout { padding: 16px; }
+  .exec-title { font-size: 32px; }
+  .exec-head { flex-direction: column; gap: 8px; }
+  .exec-donut-wrap { grid-template-columns: 1fr; text-align: center; }
+  .exec-donut { margin: 0 auto; }
+  .exec-stats { grid-template-columns: repeat(3,1fr); gap: 8px; }
+  .exec-dept-grid { grid-template-columns: repeat(2,1fr); }
+
+  /* ── SPRINT ── */
+  .sprint-wrap { padding: 14px 16px; }
+  .sprint-grid { grid-template-columns: 1fr; }
+  .sprint-selectors { flex-direction: column; gap: 10px; }
+  .sprint-sel select { min-width: 100%; }
+
+  /* ── CALENDAR ── */
+  .cal-layout { padding: 14px 16px; }
+  .cal-three-wrap { grid-template-columns: 1fr; }
+  .cal-topbar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .cal-controls { flex-wrap: wrap; }
+  .cus-row { grid-template-columns: 50px 1fr 70px; }
+  .cus-row .cus-badge { display: none; }
+
+  /* ── MODALS → full screen ── */
+  .modal-ov { align-items: flex-end; }
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 16px 16px 0 0;
+    padding: 20px 16px 32px;
+  }
+
+  /* ── MISC ── */
+  .editable-hint { padding: 6px 12px; font-size: 9px; }
+  .add-project-card { min-height: 80px; padding: 16px; }
+}
+
+/* ── SMALL PHONES (390px and below) ── */
+@media (max-width: 390px) {
+  .home-kpis { flex-direction: column; }
+  .hkpi { flex-direction: row; align-items: center; justify-content: space-between; }
+  .sales-kpis { grid-template-columns: repeat(2,1fr); }
+  .exec-dept-grid { grid-template-columns: 1fr; }
+  .exec-stats { grid-template-columns: repeat(2,1fr); }
+  .tb-title { max-width: 120px; font-size: 13px; }
+}
+
 </style>
 
 </head>
@@ -565,7 +784,7 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
   </div>
   <div class="app-header-divider"></div>
   <div class="app-header-sub">Americas Launch Platform</div>
-  <div class="app-header-right" style="display:flex;align-items:center;gap:12px;">
+  <div class="app-header-right" style="display:flex;align-items:center;gap:14px;">
   <span id="syncPulse" style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.0);transition:color .3s;">synced</span>
   <span id="connStatus" style="font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);">○ connecting</span>
 </div>
@@ -985,11 +1204,13 @@ const SAMPLE_TEMPLATE = [
 //  STATE
 // ═══════════════════════════════════════════
 // ═══════════════════════════════════════════
-//  SUPABASE CONFIG — replace with your values
+//  SUPABASE CONFIG
 // ═══════════════════════════════════════════
 const SUPABASE_URL  = 'https://bgwoeiaxmhqkefatqhkm.supabase.co';
 const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnd29laWF4bWhxa2VmYXRxaGttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjcyNDksImV4cCI6MjA5MjU0MzI0OX0.JvkQwVQCYsS8QfI0r7aBmby-YiiYFjKo3zKTPBq_D8E';
 const STORAGE_KEY   = 'breville_launch_platform_v1';   // localStorage fallback
+
+
 const HISTORY_KEY   = 'breville_launch_platform_history';
 
 // Init Supabase
@@ -1137,6 +1358,8 @@ function startAutoSave() {
     }
   }, AUTO_SAVE_MS);
 }
+
+
 
 function startRealtime() {
   if (!_sb || !_sbConnected) return;
