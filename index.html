@@ -2335,6 +2335,7 @@ function cycleTaskStatus(projectId, taskId) {
   const p = getProject(projectId);
   const t = p?.tasks.find(x=>x.id===taskId);
   if (!t) return;
+  const prevStatus = t.status;
   const cycle = ['na','progress','done','blocked'];
   const idx = cycle.indexOf(t.status);
   t.status = cycle[(idx+1) % cycle.length];
@@ -2348,6 +2349,15 @@ function cycleTaskStatus(projectId, taskId) {
       project: p.name==='TBD' ? p.model : p.name,
       task: t.name,
       owner: t.owner || null
+    });
+  }
+  // Slack: task just got resolved (was blocked, now progress or done)
+  if (prevStatus === 'blocked' && (t.status === 'progress' || t.status === 'done')) {
+    slackNotify('task_unblocked', {
+      project: p.name==='TBD' ? p.model : p.name,
+      task: t.name,
+      owner: t.owner || null,
+      resolution: t.status === 'done' ? 'Done' : 'In Progress'
     });
   }
   // Slack: dept just hit 100%
