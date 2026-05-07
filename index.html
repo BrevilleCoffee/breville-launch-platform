@@ -1399,10 +1399,11 @@ const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const STORAGE_KEY   = 'breville_launch_platform_v1';   // localStorage fallback
 
 // ═══════════════════════════════════════════
-//  SLACK WEBHOOK CONFIG
+//  SLACK CONFIG — proxied via Supabase Edge Function
+//  Webhook URL is stored as a Supabase secret, never exposed here
 // ═══════════════════════════════════════════
-const SLACK_WEBHOOK = 'https://hooks.slack.com/services/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';
 const SLACK_ENABLED = true;
+const SLACK_FN_URL  = `${SUPABASE_URL}/functions/v1/slack-notify`;
 
 
 const HISTORY_KEY   = 'breville_launch_platform_history';
@@ -1559,57 +1560,16 @@ function startAutoSave() {
 //  SLACK NOTIFICATIONS
 // ═══════════════════════════════════════════
 async function slackNotify(event, data) {
-  if (!SLACK_ENABLED || !SLACK_WEBHOOK) return;
-  let text = '';
-  let emoji = '';
-  let color = '';
-
-  const proj = data.project ? `*${data.project}*` : '';
-
-  switch(event) {
-    case 'task_blocked':
-      emoji = '🔴';
-      color = '#c0281e';
-      text = `${emoji} Task blocked on ${proj}\n*${escHtml(data.task)}*${data.owner ? ` — Owner: ${data.owner}` : ''}`;
-      break;
-    case 'dept_complete':
-      emoji = '✅';
-      color = '#28825a';
-      text = `${emoji} *${data.dept}* is 100% complete on ${proj}`;
-      break;
-    case 'launch_date_set':
-      emoji = '📅';
-      color = '#2858b8';
-      text = `${emoji} Launch date ${data.prev ? 'updated' : 'set'} on ${proj}\n*${data.date}*${data.prev ? ` (was ${data.prev})` : ''}`;
-      break;
-    case 'owner_assigned':
-      emoji = '👤';
-      color = '#a85e18';
-      text = `${emoji} *${data.owner}* assigned to task on ${proj}\n_${escHtml(data.task)}_`;
-      break;
-    case 'mp_approaching':
-      emoji = '⚠️';
-      color = '#c05818';
-      text = `${emoji} *MP date approaching* on ${proj}\nMP: *${data.mp}* — ${data.days === 0 ? 'today' : data.days + ' days away'}\nTime to start launch planning in the tracker.`;
-      break;
-    default: return;
-  }
-
-  const payload = {
-    attachments: [{
-      color,
-      text,
-      footer: 'Breville Americas Launch Platform',
-      footer_icon: 'https://brevillecoffee.github.io/breville-launch-platform/favicon.ico',
-      ts: Math.floor(Date.now()/1000)
-    }]
-  };
-
+  if (!SLACK_ENABLED) return;
   try {
-    await fetch(SLACK_WEBHOOK, {
+    await fetch(SLACK_FN_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+      },
+      body: JSON.stringify({ event, ...data })
     });
   } catch(e) {
     console.warn('Slack notify failed:', e.message);
