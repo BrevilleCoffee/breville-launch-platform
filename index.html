@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Breville Americas · Launch Platform</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+  <meta name="description" content="Breville Americas Launch Platform — Internal product launch management tool">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breville Americas Launch Platform</title>
 <!-- Supabase client -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@400;500;600&family=Zilla+Slab:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -772,6 +774,138 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
   .tb-title { max-width: 120px; font-size: 13px; }
 }
 
+
+/* ═══════════════════════════════════════════
+   PLANISWARE INTEGRATION STYLES
+═══════════════════════════════════════════ */
+
+/* Stage gate strip */
+.gate-strip {
+  grid-column:1/-1;
+  padding:10px 20px 8px;
+  border-bottom:1px solid var(--bdr0);
+  background:var(--surf0);
+  display:flex; align-items:center; gap:6px;
+  flex-wrap:wrap;
+  font-size:10px;
+}
+.gate-strip-label {
+  font-size:9px; font-weight:700; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--ink4);
+  margin-right:4px; white-space:nowrap;
+}
+.gate-pill {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:3px 9px; border-radius:12px;
+  font-size:10px; font-weight:600;
+  border:1px solid; white-space:nowrap;
+}
+.gate-done  { background:var(--grn-a); color:var(--grn); border-color:rgba(40,130,90,.2); }
+.gate-next  { background:var(--org-a); color:var(--org); border-color:rgba(192,88,24,.2); }
+.gate-future{ background:var(--surf2); color:var(--ink4); border-color:var(--bdr0); }
+.gate-arrow { color:var(--ink4); font-size:9px; }
+
+/* T-Days health badge on home cards */
+.tdays-badge {
+  display:inline-flex; align-items:center; gap:3px;
+  padding:2px 7px; border-radius:8px;
+  font-size:9px; font-weight:700; letter-spacing:.3px;
+  border:1px solid;
+}
+.tdays-urgent { background:var(--red-a); color:var(--red); border-color:rgba(192,40,30,.2); }
+.tdays-soon   { background:var(--org-a); color:var(--org); border-color:rgba(192,88,24,.2); }
+.tdays-ok     { background:var(--grn-a); color:var(--grn); border-color:rgba(40,130,90,.2); }
+.tdays-none   { background:var(--surf2); color:var(--ink4); border-color:var(--bdr0); }
+
+/* Sample inference alert */
+.sample-alert {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 14px; background:var(--org-b);
+  border:1px solid rgba(192,88,24,.2);
+  border-radius:7px; font-size:11px;
+  color:var(--org); margin:8px 14px 4px;
+}
+.sample-alert-icon { font-size:14px; flex-shrink:0; }
+
+/* Planisware sync modal */
+.sync-table { width:100%; border-collapse:collapse; margin-top:8px; min-width:500px; }
+.sync-table th {
+  font-size:10px; font-weight:700; letter-spacing:.8px;
+  text-transform:uppercase; color:var(--ink3);
+  padding:7px 10px; border-bottom:2px solid var(--bdr);
+  text-align:left; background:var(--surf0);
+}
+.sync-table td {
+  padding:8px 10px; border-bottom:1px solid var(--bdr0);
+  font-size:12px; vertical-align:middle;
+}
+.sync-row-new { background:rgba(40,130,90,.04); }
+.sync-row-update { background:rgba(40,88,184,.04); }
+.sync-select {
+  background:var(--surf2); border:1px solid var(--bdr);
+  border-radius:6px; color:var(--ink);
+  font-family:var(--f-body); font-size:11px;
+  padding:4px 8px; outline:none; width:100%;
+}
+.sync-select:focus { border-color:var(--blu); }
+.pdm-contact {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:3px 9px; background:var(--surf2);
+  border:1px solid var(--bdr0); border-radius:12px;
+  font-size:10px; color:var(--ink3); margin-top:4px;
+}
+
+/* Portfolio pipeline on home */
+.pipeline-strip {
+  margin-bottom:20px;
+  background:var(--surf1); border:1px solid var(--bdr0);
+  border-radius:12px; overflow:hidden;
+}
+.pipeline-head {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 16px 10px; border-bottom:1px solid var(--bdr0);
+  background:var(--surf0);
+}
+.pipeline-title {
+  font-size:10px; font-weight:700; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--ink3);
+}
+.pipeline-rows { padding:4px 0; overflow-x:auto; }
+.pipeline-row {
+  display:grid;
+  grid-template-columns:140px 80px repeat(6,1fr) 100px;
+  gap:0; align-items:center;
+  padding:7px 16px; border-bottom:1px solid var(--bdr0);
+  font-size:11px; transition:background .1s; cursor:pointer;
+}
+.pipeline-row:last-child { border-bottom:none; }
+.pipeline-row:hover { background:var(--surf2); }
+.pipeline-row.header {
+  font-size:9px; font-weight:700; letter-spacing:.8px;
+  text-transform:uppercase; color:var(--ink4);
+  cursor:default; padding-bottom:6px;
+  border-bottom:2px solid var(--bdr);
+}
+.pipeline-row.header:hover { background:transparent; }
+.pl-name { font-weight:600; color:var(--ink); }
+.pl-cat  { font-size:10px; color:var(--ink3); }
+.pl-gate {
+  text-align:center; font-size:10px; font-weight:600;
+  padding:2px 4px; border-radius:4px;
+}
+.pl-gate-done   { color:var(--grn); }
+.pl-gate-next   { color:var(--org); font-style:italic; }
+.pl-gate-future { color:var(--ink4); }
+.pl-gate-empty  { color:var(--bdr2); }
+.pl-mp {
+  text-align:right; font-family:var(--f-mono);
+  font-size:10px; font-weight:600;
+}
+.pl-mp-soon   { color:var(--org); }
+.pl-mp-urgent { color:var(--red); }
+.pl-mp-ok     { color:var(--ink3); }
+.pl-no-data   { color:var(--ink4); font-style:italic; }
+
 </style>
 
 </head>
@@ -806,6 +940,9 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
     </button>
     <button class="rfbtn" onclick="openArchiveModal()">
       <span class="rfbtn-icon">📦</span> Manage Projects
+    </button>
+    <button class="rfbtn" onclick="openSyncModal()">
+      <span class="rfbtn-icon">📋</span> Sync Planisware
     </button>
     <button class="rfbtn" onclick="openDataModal()">
       <span class="rfbtn-icon">💾</span> Export / Import
@@ -945,6 +1082,57 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
     <div class="m-acts">
       <button class="m-cancel" onclick="closeModal('addTaskModal')">Cancel</button>
       <button class="m-save" onclick="saveNewTask()">Add Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- Planisware Sync Modal -->
+<div class="modal-ov" id="syncModal">
+  <div class="modal" style="width:820px;max-width:98vw;">
+    <div class="m-title">↻ Sync Planisware Data</div>
+    <div style="font-size:12px;color:var(--ink3);margin-bottom:16px;line-height:1.6">
+      Export the current Planisware tab as CSV (File → Save As → CSV) then upload below.
+      Match each row to an active project or skip it.
+    </div>
+
+    <!-- Upload zone -->
+    <div id="syncUploadZone" style="border:2px dashed var(--bdr2);border-radius:10px;padding:24px;
+      text-align:center;cursor:pointer;transition:all .15s;margin-bottom:16px;"
+      onclick="document.getElementById('syncFileInput').click()"
+      ondragover="event.preventDefault();this.style.borderColor='var(--coffee)'"
+      ondragleave="this.style.borderColor='var(--bdr2)'"
+      ondrop="event.preventDefault();this.style.borderColor='var(--bdr2)';handleSyncFile(event.dataTransfer.files[0])">
+      <div style="font-size:24px;margin-bottom:8px">📂</div>
+      <div style="font-size:13px;font-weight:600;color:var(--ink2)">Drop CSV file here or click to browse</div>
+      <div style="font-size:11px;color:var(--ink4);margin-top:4px">Export current Planisware tab as .csv</div>
+      <input type="file" id="syncFileInput" accept=".csv" style="display:none"
+        onchange="handleSyncFile(this.files[0])">
+    </div>
+
+    <!-- Matching table -->
+    <div id="syncMatchArea" style="display:none">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+        color:var(--ink3);margin-bottom:8px">Match rows to projects</div>
+      <div style="max-height:380px;overflow-y:auto">
+        <table class="sync-table" id="syncTable">
+          <thead><tr>
+            <th>Planisware Row</th>
+            <th>CAT</th>
+            <th>MP Date</th>
+            <th>MP T-Days</th>
+            <th>Match to Project</th>
+          </tr></thead>
+          <tbody id="syncTableBody"></tbody>
+        </table>
+      </div>
+      <div class="m-acts" style="margin-top:16px">
+        <button class="m-cancel" onclick="closeModal('syncModal')">Cancel</button>
+        <button class="m-save" onclick="applySyncData()">Apply Sync</button>
+      </div>
+    </div>
+
+    <div class="m-acts" id="syncInitActs">
+      <button class="m-cancel" onclick="closeModal('syncModal')">Cancel</button>
     </div>
   </div>
 </div>
@@ -1210,6 +1398,12 @@ const SUPABASE_URL  = 'https://bgwoeiaxmhqkefatqhkm.supabase.co';
 const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnd29laWF4bWhxa2VmYXRxaGttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NjcyNDksImV4cCI6MjA5MjU0MzI0OX0.JvkQwVQCYsS8QfI0r7aBmby-YiiYFjKo3zKTPBq_D8E';
 const STORAGE_KEY   = 'breville_launch_platform_v1';   // localStorage fallback
 
+// ═══════════════════════════════════════════
+//  SLACK WEBHOOK CONFIG
+// ═══════════════════════════════════════════
+const SLACK_WEBHOOK = 'https://hooks.slack.com/services/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';
+const SLACK_ENABLED = true;
+
 
 const HISTORY_KEY   = 'breville_launch_platform_history';
 
@@ -1360,6 +1554,67 @@ function startAutoSave() {
 }
 
 
+
+// ═══════════════════════════════════════════
+//  SLACK NOTIFICATIONS
+// ═══════════════════════════════════════════
+async function slackNotify(event, data) {
+  if (!SLACK_ENABLED || !SLACK_WEBHOOK) return;
+  let text = '';
+  let emoji = '';
+  let color = '';
+
+  const proj = data.project ? `*${data.project}*` : '';
+
+  switch(event) {
+    case 'task_blocked':
+      emoji = '🔴';
+      color = '#c0281e';
+      text = `${emoji} Task blocked on ${proj}\n*${escHtml(data.task)}*${data.owner ? ` — Owner: ${data.owner}` : ''}`;
+      break;
+    case 'dept_complete':
+      emoji = '✅';
+      color = '#28825a';
+      text = `${emoji} *${data.dept}* is 100% complete on ${proj}`;
+      break;
+    case 'launch_date_set':
+      emoji = '📅';
+      color = '#2858b8';
+      text = `${emoji} Launch date ${data.prev ? 'updated' : 'set'} on ${proj}\n*${data.date}*${data.prev ? ` (was ${data.prev})` : ''}`;
+      break;
+    case 'owner_assigned':
+      emoji = '👤';
+      color = '#a85e18';
+      text = `${emoji} *${data.owner}* assigned to task on ${proj}\n_${escHtml(data.task)}_`;
+      break;
+    case 'mp_approaching':
+      emoji = '⚠️';
+      color = '#c05818';
+      text = `${emoji} *MP date approaching* on ${proj}\nMP: *${data.mp}* — ${data.days === 0 ? 'today' : data.days + ' days away'}\nTime to start launch planning in the tracker.`;
+      break;
+    default: return;
+  }
+
+  const payload = {
+    attachments: [{
+      color,
+      text,
+      footer: 'Breville Americas Launch Platform',
+      footer_icon: 'https://brevillecoffee.github.io/breville-launch-platform/favicon.ico',
+      ts: Math.floor(Date.now()/1000)
+    }]
+  };
+
+  try {
+    await fetch(SLACK_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) {
+    console.warn('Slack notify failed:', e.message);
+  }
+}
 
 function startRealtime() {
   if (!_sb || !_sbConnected) return;
@@ -1549,6 +1804,7 @@ function makeProject(cfg) {
     createdAt: Date.now(),
     // Sales intelligence data model
     sales: cfg.sales || makeSalesTemplate(),
+    planisware: cfg.planisware || null,
   };
 }
 
@@ -1645,6 +1901,119 @@ function renderRail() {
 // ═══════════════════════════════════════════
 //  HOME VIEW
 // ═══════════════════════════════════════════
+
+// ═══════════════════════════════════════════
+//  PLANISWARE HELPERS
+// ═══════════════════════════════════════════
+const PW_GATES = [
+  { key:'project_go', label:'Proj Go' },
+  { key:'comm_go',    label:'Comm Go' },
+  { key:'tool_rel',   label:'Tool Rel' },
+  { key:'pp',         label:'PP' },
+  { key:'prod_rel',   label:'Prod Rel' },
+  { key:'mp',         label:'MP' },
+  { key:'fsr',        label:'FSR' },
+];
+
+// Sample types that should exist after each gate passes
+const GATE_SAMPLES = {
+  tool_rel: 'Tooling Sample',
+  pp:       'PP Sample',
+  mp:       'MP Sample',
+};
+
+function pwDate(d) {
+  // Parse various date formats: "Aug-27", "Aug-28", "Jan-27" etc
+  if (!d || d.trim()==='' || d.trim()==='0') return null;
+  const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  const m = d.trim().match(/^([A-Za-z]+)[\-\/]?([\d]{2})$/);
+  if (!m) return null;
+  const mo = months[m[1]]; if (mo===undefined) return null;
+  const yr = 2000 + parseInt(m[2]);
+  return new Date(yr, mo, 1);
+}
+
+function daysFromNow(dateStr) {
+  const d = pwDate(dateStr);
+  if (!d) return null;
+  return Math.ceil((d - new Date()) / 86400000);
+}
+
+function gateStatus(dateStr) {
+  const d = daysFromNow(dateStr);
+  if (d === null) return 'empty';
+  if (d < 0)  return 'done';
+  if (d < 60) return 'next';
+  return 'future';
+}
+
+function renderGateStrip(p) {
+  const pw = p.planisware;
+  if (!pw) return '';
+  const pdmChip = pw.pdm ? `<span class="pdm-contact">👤 ${escHtml(pw.pdm)}</span>` : '';
+  let gates = PW_GATES.map(g => {
+    const st = gateStatus(pw[g.key]);
+    const d  = pwDate(pw[g.key]);
+    const label = d ? `${g.label} ${d.toLocaleString('en-US',{month:'short',year:'2-digit'})}` : g.label;
+    const cls = st==='done'?'gate-done':st==='next'?'gate-next':st==='future'?'gate-future':'gate-future';
+    const icon = st==='done'?'✓':st==='next'?'●':'○';
+    return `<span class="gate-pill ${cls}">${icon} ${label}</span>`;
+  }).join('<span class="gate-arrow">›</span>');
+  return `
+    <div class="gate-strip">
+      <span class="gate-strip-label">Dev Pipeline</span>
+      ${gates}
+      ${pdmChip}
+    </div>`;
+}
+
+function renderSampleAlerts(p) {
+  const pw = p.planisware;
+  if (!pw) return '';
+  let alerts = '';
+  Object.entries(GATE_SAMPLES).forEach(([gate, sampleType]) => {
+    const st = gateStatus(pw[gate]);
+    if (st !== 'done') return; // gate hasn't passed
+    // Check if this sample type is logged
+    const logged = (p.samples||[]).some(s =>
+      s.type && s.type.toLowerCase().includes(sampleType.toLowerCase().split(' ')[0]) && s.qty > 0
+    );
+    if (!logged) {
+      alerts += `
+        <div class="sample-alert">
+          <span class="sample-alert-icon">⚠️</span>
+          <span><strong>${sampleType}</strong> expected — ${gateKey(gate)} passed but no samples logged yet</span>
+          <button onclick="showView('samples')" style="margin-left:auto;padding:3px 10px;background:var(--org);color:#fff;border:none;border-radius:5px;font-size:10px;font-weight:600;cursor:pointer">Go to Samples</button>
+        </div>`;
+    }
+  });
+  return alerts;
+}
+
+function gateKey(k) { return PW_GATES.find(g=>g.key===k)?.label || k; }
+
+function tDaysBadge(pw) {
+  if (!pw || !pw.mp) return '';
+  const d = daysFromNow(pw.mp);
+  if (d === null) return '';
+  if (d < 0)   return `<span class="tdays-badge tdays-ok">✓ MP passed</span>`;
+  if (d <= 30)  return `<span class="tdays-badge tdays-urgent">⚠ MP in ${d}d</span>`;
+  if (d <= 90)  return `<span class="tdays-badge tdays-soon">MP in ${d}d</span>`;
+  return `<span class="tdays-badge tdays-ok">MP in ${d}d</span>`;
+}
+
+function readinessGap(p) {
+  // Only show if both launch date and MP date exist
+  const pw = p.planisware;
+  if (!pw || !pw.mp || !p.launchDate) return null;
+  const mpDate     = pwDate(pw.mp);
+  const launchDate = new Date(p.launchDate + 'T00:00:00');
+  if (!mpDate) return null;
+  const bufferDays = Math.ceil((launchDate - mpDate) / 86400000);
+  const s = getStats(p.tasks);
+  return { bufferDays, taskPct: s.pct };
+}
+
 function renderHome() {
   const total = state.projects.length;
   const live  = state.projects.filter(p=>p.stage==='live').length;
@@ -1674,12 +2043,67 @@ function renderHome() {
     </div>
   `;
 
-  // Grid
+  // Pipeline strip — only show for projects with Planisware data
+  const pwProjects = state.projects.filter(p => p.planisware);
+  let pipelineHtml = '';
+  if (pwProjects.length > 0) {
+    const today = new Date();
+    const GATE_COLS = ['project_go','comm_go','tool_rel','pp','prod_rel','mp','fsr'];
+    const GATE_LABELS = ['Proj Go','Comm Go','Tool Rel','PP','Prod Rel','MP','FSR'];
+    pipelineHtml = `
+      <div class="pipeline-strip">
+        <div class="pipeline-head">
+          <div class="pipeline-title">📋 Planisware Development Pipeline</div>
+          <button onclick="openSyncModal()" style="padding:4px 12px;background:transparent;border:1px solid var(--bdr);border-radius:6px;font-family:var(--f-ui);font-size:10px;font-weight:600;color:var(--ink3);cursor:pointer;letter-spacing:.5px;">↻ Sync</button>
+        </div>
+        <div class="pipeline-rows">
+          <div class="pipeline-row header">
+            <div>Project</div>
+            <div>Cat</div>
+            ${GATE_LABELS.map(l=>`<div style="text-align:center">${l}</div>`).join('')}
+            <div style="text-align:right">MP Date</div>
+          </div>
+          ${pwProjects.map(p => {
+            const pw = p.planisware;
+            const mpDays = daysFromNow(pw.mp);
+            const mpCls = mpDays===null?'pl-no-data':mpDays<0?'pl-gate-done':mpDays<=30?'pl-mp-urgent':mpDays<=90?'pl-mp-soon':'pl-mp-ok';
+            const mpLabel = pw.mp || '—';
+            return `<div class="pipeline-row" onclick="selectProject('${p.id}')">
+              <div class="pl-name">${escHtml(p.name==='TBD'?p.model:p.name)}</div>
+              <div class="pl-cat">${CAT_CFG[p.category]?.label||'—'}</div>
+              ${GATE_COLS.map(g => {
+                const st = gateStatus(pw[g]);
+                const cls = st==='done'?'pl-gate-done':st==='next'?'pl-gate-next':st==='future'?'pl-gate-future':'pl-gate-empty';
+                const icon = st==='done'?'✓':st==='next'?'●':st==='future'?'○':'—';
+                return `<div class="pl-gate ${cls}" style="text-align:center">${icon}</div>`;
+              }).join('')}
+              <div class="pl-mp ${mpCls}">${mpLabel}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+  } else {
+    pipelineHtml = `
+      <div class="pipeline-strip" style="cursor:pointer" onclick="openSyncModal()">
+        <div class="pipeline-head">
+          <div class="pipeline-title">📋 Planisware Development Pipeline</div>
+          <span style="font-size:11px;color:var(--ink4);font-style:italic">No data synced yet</span>
+        </div>
+        <div style="padding:16px;font-size:12px;color:var(--ink3);display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px">📂</span>
+          <div>Sync your Planisware export to see stage gate progress across all projects. <span style="color:var(--coffee);font-weight:600;cursor:pointer" onclick="openSyncModal()">Upload CSV →</span></div>
+        </div>
+      </div>`;
+  }
+
+  // Project cards
   let html = '';
   state.projects.forEach(p => {
     const s = getStats(p.tasks);
     const cc = catColor(p.category);
     const dtl = daysToLaunch(p.launchDate);
+    const pw = p.planisware;
+    const gap = readinessGap(p);
     html += `
       <div class="hpcard" onclick="selectProject('${p.id}')">
         <div class="hpcard-bar" style="background:${cc}"></div>
@@ -1687,6 +2111,7 @@ function renderHome() {
           <div class="hpcard-top">
             <span class="hpcard-model">${p.model}</span>
             <div class="hpcard-actions">
+              ${pw ? tDaysBadge(pw) : ''}
               <span class="hpcard-pct" style="color:${pctColor(s.pct)}">${s.pct}%</span>
               <button class="hpcard-edit"
                 onclick="event.stopPropagation();openEditProject('${p.id}')" title="Edit project">✎</button>
@@ -1699,19 +2124,33 @@ function renderHome() {
               onclick="event.stopPropagation();cycleStage('${p.id}')"
               title="Click to advance stage">${stageLabel(p.stage)} ›</span>
             <span class="hptag" style="background:rgba(${hexToRgb(cc)},.12);color:${cc}">${CAT_CFG[p.category]?.label||'Other'}</span>
+            ${pw?.mp ? `<span class="hptag" style="background:var(--surf2);color:var(--ink3);font-size:9px">MP ${pw.mp}</span>` : ''}
           </div>
           <div class="hpcard-progress"><div class="hpcard-fill" style="width:${s.pct}%;background:${cc}"></div></div>
           <div class="hpcard-foot">
             <span>${s.done} done · ${s.prog} active · ${s.blk} blocked</span>
             <span style="${!p.launchDate?'color:var(--ink4)':dtl!=null&&dtl<=7?'color:var(--red)':dtl!=null&&dtl<=14?'color:var(--org)':''}">
-              ${dtl!=null ? (dtl>0?dtl+'d to launch':'🚀 Live') : '○ Set launch date'}
+              ${dtl!=null ? (dtl>0?dtl+'d to launch':'🚀 Live') : (pw?'○ Set launch date':'○ Set launch date')}
             </span>
           </div>
+          ${gap ? `<div style="padding:6px 0 2px;font-size:10px;color:${gap.bufferDays<14?'var(--red)':gap.bufferDays<30?'var(--org)':'var(--grn)'}">
+            ${gap.bufferDays>0?`▸ ${gap.bufferDays}d MP→Launch buffer · ${gap.taskPct}% ready`:`▸ Launch before MP — check timeline`}
+          </div>` : ''}
         </div>
       </div>`;
   });
   html += `<div class="add-project-card" onclick="openModal('addProjectModal')"><div class="plus">＋</div><div>New Project</div></div>`;
-  document.getElementById('homeGrid').innerHTML = html;
+
+  const gridEl = document.getElementById('homeGrid');
+  gridEl.innerHTML = html;
+
+  // Insert pipeline above the grid
+  const homeWrap = gridEl.parentElement;
+  let existingPipeline = homeWrap.querySelector('.pipeline-strip');
+  if (existingPipeline) existingPipeline.remove();
+  const pipelineDiv = document.createElement('div');
+  pipelineDiv.innerHTML = pipelineHtml;
+  homeWrap.insertBefore(pipelineDiv.firstElementChild, gridEl);
 }
 
 function hexToRgb(hex) {
@@ -1810,6 +2249,14 @@ function renderTracker() {
       </div>
     </div>
     <div class="dept-sidebar">`;
+
+  // Append gate strip and sample alerts separately to avoid nested template literal issues
+  const gateStripHtml   = renderGateStrip(p);
+  const sampleAlertHtml = renderSampleAlerts(p);
+  if (gateStripHtml || sampleAlertHtml) {
+    html = html.replace('<div class="dept-sidebar">',
+      (gateStripHtml || '') + (sampleAlertHtml || '') + '<div class="dept-sidebar">');
+  }
 
   // Dept sidebar
   const depts = Object.keys(DEPT_CFG);
@@ -1931,11 +2378,27 @@ function cycleTaskStatus(projectId, taskId) {
   const cycle = ['blocked','progress','done','na'];
   const idx = cycle.indexOf(t.status);
   t.status = cycle[(idx+1) % cycle.length];
-  // sync checkbox
   save();
   renderTaskArea(p);
   renderRail();
   renderTopbar();
+  // Slack: task just became blocked
+  if (t.status === 'blocked') {
+    slackNotify('task_blocked', {
+      project: p.name==='TBD' ? p.model : p.name,
+      task: t.name,
+      owner: t.owner || null
+    });
+  }
+  // Slack: dept just hit 100%
+  const deptTasks = p.tasks.filter(x => x.dept===t.dept && x.status!=='na');
+  const deptDone  = deptTasks.filter(x => x.status==='done').length;
+  if (t.status==='done' && deptDone===deptTasks.length && deptTasks.length>0) {
+    slackNotify('dept_complete', {
+      project: p.name==='TBD' ? p.model : p.name,
+      dept: DEPT_CFG[t.dept]?.label || t.dept
+    });
+  }
 }
 
 // Update owner or due inline
@@ -1943,9 +2406,17 @@ function updateTaskField(projectId, taskId, field, value) {
   const p = getProject(projectId);
   const t = p?.tasks.find(x=>x.id===taskId);
   if (!t) return;
+  const prevOwner = field==='owner' ? t.owner : null;
   t[field] = value;
   save();
-  // Only full re-render for fields that affect KPIs/rail
+  // Slack: owner newly assigned
+  if (field==='owner' && value.trim() && !prevOwner) {
+    slackNotify('owner_assigned', {
+      project: p.name==='TBD' ? p.model : p.name,
+      task: t.name,
+      owner: value.trim()
+    });
+  }
   if (field === 'status' || field === 'due') {
     renderTaskArea(p);
     renderRail();
@@ -2005,6 +2476,7 @@ function selectEditStage(stage, btn) {
 function saveEditProject() {
   const p = getProject(_editProjectId);
   if (!p) return;
+  const prevDate   = p.launchDate;
   p.model      = document.getElementById('ep-model').value.trim() || p.model;
   p.name       = document.getElementById('ep-name').value.trim()  || 'TBD';
   p.category   = document.getElementById('ep-cat').value;
@@ -2013,6 +2485,15 @@ function saveEditProject() {
   p.notes      = document.getElementById('ep-notes').value || '';
   const activeBtn = document.querySelector('#ep-stage-row .stg-btn[data-selected]');
   if (activeBtn) p.stage = activeBtn.getAttribute('data-selected');
+  // Slack: launch date added or changed
+  if (p.launchDate && p.launchDate !== prevDate) {
+    const fmt = d => new Date(d+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    slackNotify('launch_date_set', {
+      project: p.name==='TBD' ? p.model : p.name,
+      date: fmt(p.launchDate),
+      prev: prevDate ? fmt(prevDate) : null
+    });
+  }
   save();
   closeModal('editProjectModal');
   renderAll();
@@ -3403,6 +3884,201 @@ function closeModal(id) { document.getElementById(id)?.classList.remove('open');
 document.querySelectorAll('.modal-ov').forEach(el => {
   el.addEventListener('click', e => { if(e.target===el) el.classList.remove('open'); });
 });
+
+
+// ═══════════════════════════════════════════
+//  PLANISWARE CSV SYNC
+// ═══════════════════════════════════════════
+let _syncRows = [];
+
+function openSyncModal() {
+  _syncRows = [];
+  document.getElementById('syncMatchArea').style.display = 'none';
+  document.getElementById('syncInitActs').style.display = 'flex';
+  document.getElementById('syncFileInput').value = '';
+  openModal('syncModal');
+}
+
+function handleSyncFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const rows = parseCSV(e.target.result);
+    _syncRows = rows.filter(r => r.project_name && r.project_name.trim() !== '');
+    renderSyncTable();
+  };
+  reader.readAsText(file);
+}
+
+function parseCSV(text) {
+  // Parse Planisware CSV export
+  // Expected columns: CAT, Project, PROJECT GO, COMM GO, TOOL REL, PP, PROD REL, MP, FSR, NOTES, PDM/DL
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  const rows = [];
+  let headerIdx = -1;
+
+  // Find header row (contains "MP" or "PROJ")
+  for (let i = 0; i < Math.min(lines.length, 10); i++) {
+    const l = lines[i].toUpperCase();
+    if (l.includes('MP') && (l.includes('CAT') || l.includes('PROJ'))) {
+      headerIdx = i; break;
+    }
+  }
+  if (headerIdx < 0) headerIdx = 0;
+
+  const headers = splitCSVLine(lines[headerIdx]).map(h => h.trim().toLowerCase()
+    .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,''));
+
+  for (let i = headerIdx + 1; i < lines.length; i++) {
+    const vals = splitCSVLine(lines[i]);
+    if (vals.length < 3) continue;
+    const row = {};
+    headers.forEach((h,j) => row[h] = (vals[j]||'').trim());
+    // Normalize field names
+    const r = {
+      project_name: row.project || row.c || row.project_name || '',
+      cat:          row.cat || row.b || row.category || '',
+      project_go:   row.project_go || row.d || row.proj_go || '',
+      comm_go:      row.comm_go || row.e || '',
+      tool_rel:     row.tool_rel || row.f || '',
+      pp:           row.pp || row.g || '',
+      prod_rel:     row.prod_rel || row.h || '',
+      mp:           row.mp || row.i || '',
+      fsr:          row.fsr || row.j || '',
+      notes:        row.notes || row.r || row.s || '',
+      pdm:          row.pdmdl || row.pdm_dl || row.pdm || row.s || '',
+    };
+    if (r.project_name) rows.push(r);
+  }
+  return rows;
+}
+
+function splitCSVLine(line) {
+  const result = []; let cur = ''; let inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+    else cur += c;
+  }
+  result.push(cur);
+  return result;
+}
+
+function renderSyncTable() {
+  const tbody = document.getElementById('syncTableBody');
+  if (!_syncRows.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--ink4);padding:16px;font-style:italic">No valid rows found. Check CSV format.</td></tr>';
+  } else {
+    const projectOpts = state.projects.map(p =>
+      `<option value="${p.id}">${p.model} — ${p.name==='TBD'?'TBD':p.name}</option>`
+    ).join('');
+    tbody.innerHTML = _syncRows.map((r,i) => {
+      const mpDays = daysFromNow(r.mp);
+      const mpClass = mpDays===null?'':mpDays<=30?'style="color:var(--red);font-weight:700"':mpDays<=90?'style="color:var(--org)"':'';
+      // Try to auto-match by model number
+      const autoMatch = state.projects.find(p =>
+        r.project_name.toUpperCase().includes(p.model.toUpperCase()) ||
+        p.model.toUpperCase().includes(r.project_name.substring(0,6).toUpperCase())
+      );
+      return `<tr>
+        <td style="font-weight:500;max-width:200px">${escHtml(r.project_name.substring(0,60))}</td>
+        <td style="font-size:10px;color:var(--ink3)">${escHtml(r.cat)}</td>
+        <td style="font-family:var(--f-mono);font-size:11px" ${mpClass}>${r.mp||'—'}</td>
+        <td style="font-family:var(--f-mono);font-size:11px" ${mpClass}>${mpDays!=null?(mpDays<0?'passed':mpDays+'d'):'—'}</td>
+        <td>
+          <select class="sync-select" id="sync-match-${i}">
+            <option value="">— Skip this row —</option>
+            ${projectOpts}
+          </select>
+        </td>
+      </tr>`;
+    }).join('');
+    // Set auto-matched selects
+    _syncRows.forEach((r,i) => {
+      const autoMatch = state.projects.find(p =>
+        r.project_name.toUpperCase().includes(p.model.toUpperCase()) ||
+        p.model.toUpperCase().includes(r.project_name.substring(0,6).toUpperCase())
+      );
+      if (autoMatch) {
+        const sel = document.getElementById(`sync-match-${i}`);
+        if (sel) sel.value = autoMatch.id;
+      }
+    });
+  }
+  document.getElementById('syncMatchArea').style.display = 'block';
+  document.getElementById('syncInitActs').style.display = 'none';
+}
+
+function applySyncData() {
+  let updated = 0; let mpAlerts = [];
+  _syncRows.forEach((r, i) => {
+    const sel = document.getElementById(`sync-match-${i}`);
+    if (!sel || !sel.value) return;
+    const p = getProject(sel.value);
+    if (!p) return;
+    p.planisware = {
+      source_row:  r.project_name,
+      cat:         r.cat,
+      pdm:         r.pdm,
+      project_go:  r.project_go,
+      comm_go:     r.comm_go,
+      tool_rel:    r.tool_rel,
+      pp:          r.pp,
+      prod_rel:    r.prod_rel,
+      mp:          r.mp,
+      fsr:         r.fsr,
+      notes:       r.notes,
+      synced_at:   Date.now(),
+    };
+    updated++;
+    // Queue MP alerts
+    const mpDays = daysFromNow(r.mp);
+    if (mpDays !== null && mpDays >= 0 && mpDays <= 30) {
+      mpAlerts.push({ project: p.name==='TBD'?p.model:p.name, days: mpDays, mp: r.mp });
+    }
+    // Auto-populate calendar with gate dates
+    syncGatesToCalendar(p);
+  });
+
+  save();
+  closeModal('syncModal');
+  renderAll();
+
+  // Fire Slack alerts for MP within 30 days
+  mpAlerts.forEach(a => {
+    slackNotify('mp_approaching', {
+      project: a.project, days: a.days, mp: a.mp
+    });
+  });
+
+  if (updated) {
+    setTimeout(() => alert(`✓ Synced ${updated} project${updated>1?'s':''}. ${mpAlerts.length?mpAlerts.length+' MP alert(s) sent to Slack.':''}`), 100);
+  }
+}
+
+function syncGatesToCalendar(p) {
+  // Remove old planisware-sourced calendar events
+  if (!p.calEvents) p.calEvents = [];
+  p.calEvents = p.calEvents.filter(e => e.source !== 'planisware');
+  // Add gate dates as calendar events
+  const pw = p.planisware;
+  PW_GATES.forEach(g => {
+    const d = pwDate(pw[g.key]);
+    if (!d) return;
+    const dateStr = d.toISOString().split('T')[0];
+    p.calEvents.push({
+      id: `pw_${g.key}_${p.id}`,
+      date: dateStr,
+      title: `${g.label} — ${p.model}`,
+      dept: 'product',
+      type: 'planisware',
+      source: 'planisware',
+      notes: `Auto-synced from Planisware`,
+    });
+  });
+}
+
 
 // ═══════════════════════════════════════════
 //  MASTER RENDER
