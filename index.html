@@ -906,6 +906,29 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
 .pl-mp-ok     { color:var(--ink3); }
 .pl-no-data   { color:var(--ink4); font-style:italic; }
 
+
+/* Status dropdown */
+.status-select {
+  appearance:none; -webkit-appearance:none;
+  border:none; outline:none; cursor:pointer;
+  font-family:var(--f-body); font-size:10px; font-weight:600;
+  padding:3px 20px 3px 9px; border-radius:12px;
+  background-repeat:no-repeat;
+  background-position:right 5px center;
+  background-size:8px;
+  transition:opacity .12s;
+}
+.status-select:hover { opacity:.8; }
+.status-select.s-na   { background-color:var(--surf3); color:var(--ink3);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M1 2.5L4 5.5L7 2.5' stroke='%236a6a80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.status-select.s-prog { background-color:var(--org-a); color:var(--org);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M1 2.5L4 5.5L7 2.5' stroke='%23c05818' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.status-select.s-done { background-color:var(--grn-a); color:var(--grn);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M1 2.5L4 5.5L7 2.5' stroke='%2328825a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.status-select.s-blk  { background-color:var(--red-a); color:var(--red);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M1 2.5L4 5.5L7 2.5' stroke='%23c0281e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
+.status-select option { background:var(--surf1); color:var(--ink); font-weight:500; }
+
 </style>
 
 </head>
@@ -2272,7 +2295,7 @@ function renderTaskArea(p) {
       </div>
     </div>
     <div class="editable-hint">
-      <span>✎</span> Click any task name, owner, or note to edit inline &nbsp;·&nbsp; Click status pill to cycle &nbsp;·&nbsp; Checkbox marks done
+      <span>✎</span> Click any field to edit inline &nbsp;·&nbsp; Use status dropdown to update &nbsp;·&nbsp; Checkbox marks done
     </div>
     <table class="task-table">
       <thead><tr>
@@ -2314,7 +2337,14 @@ function renderTaskArea(p) {
             style="${dueCls==='late'?'color:var(--red)':dueCls==='soon'?'color:var(--org)':''}">
         </td>
         <td style="text-align:right">
-          <span class="spill ${sc}" onclick="cycleTaskStatus('${p.id}','${task.id}')" title="Click to cycle status">${sl}</span>
+          <select class="status-select ${sc}"
+            onchange="setTaskStatus('${p.id}','${task.id}',this.value);this.className='status-select '+getStatusClass(this.value)"
+            title="Set status">
+            <option value="na"   ${task.status==='na'   ?'selected':''}>Not Started</option>
+            <option value="progress" ${task.status==='progress'?'selected':''}>In Progress</option>
+            <option value="done" ${task.status==='done' ?'selected':''}>Done</option>
+            <option value="blocked" ${task.status==='blocked'?'selected':''}>Blocked</option>
+          </select>
         </td>
       </tr>`;
   });
@@ -2331,6 +2361,48 @@ function toggleTask(projectId, taskId, checked) {
 }
 
 // Cycle task status: blocked → progress → done → na → blocked
+function getStatusClass(status) {
+  return status==='done'?'s-done':status==='progress'?'s-prog':status==='blocked'?'s-blk':'s-na';
+}
+
+function setTaskStatus(projectId, taskId, newStatus) {
+  const p = getProject(projectId);
+  const t = p?.tasks.find(x=>x.id===taskId);
+  if (!t || t.status === newStatus) return;
+  const prevStatus = t.status;
+  t.status = newStatus;
+  t._touched = true;
+  save();
+  renderRail();
+  renderTopbar();
+  // Slack: task became blocked
+  if (newStatus === 'blocked') {
+    slackNotify('task_blocked', {
+      project: p.name==='TBD' ? p.model : p.name,
+      task: t.name,
+      owner: t.owner || null
+    });
+  }
+  // Slack: block resolved
+  if (prevStatus === 'blocked' && (newStatus === 'progress' || newStatus === 'done')) {
+    slackNotify('task_unblocked', {
+      project: p.name==='TBD' ? p.model : p.name,
+      task: t.name,
+      owner: t.owner || null,
+      resolution: newStatus === 'done' ? 'Done' : 'In Progress'
+    });
+  }
+  // Slack: dept just hit 100%
+  const deptTasks = p.tasks.filter(x => x.dept===t.dept && x.status!=='na');
+  const deptDone  = deptTasks.filter(x => x.status==='done').length;
+  if (newStatus==='done' && deptDone===deptTasks.length && deptTasks.length>0) {
+    slackNotify('dept_complete', {
+      project: p.name==='TBD' ? p.model : p.name,
+      dept: DEPT_CFG[t.dept]?.label || t.dept
+    });
+  }
+}
+
 function cycleTaskStatus(projectId, taskId) {
   const p = getProject(projectId);
   const t = p?.tasks.find(x=>x.id===taskId);
