@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
   <meta name="description" content="Breville Americas Launch Platform — Internal product launch management tool">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Breville Americas Launch Platform</title>
 <!-- Supabase client -->
@@ -111,6 +113,8 @@
   transition:opacity .12s;letter-spacing:.3px;
 }
 .gate-btn:hover{opacity:.82;}
+.gate-btn:disabled{opacity:.35;cursor:not-allowed;}
+.gate-input:disabled{opacity:.5;cursor:not-allowed;background:#e8e4de;}
 .gate-error{
   font-family:'DM Sans',sans-serif;
   font-size:11px;color:#c0281e;
@@ -4277,24 +4281,91 @@ function renderAll() {
 //  never in plain text in the source.
 //  Current code: breville2025
 // ═══════════════════════════════════════════
-const GATE_HASH = '7116f9607e7d53ff040c953c345f1f813bc12250b8c80f2f62cdf6916e436b02';
+const GATE_HASH     = '7116f9607e7d53ff040c953c345f1f813bc12250b8c80f2f62cdf6916e436b02';
+const GATE_MAX_ATTEMPTS = 3;          // lock after this many wrong tries
+const GATE_LOCKOUT_MS   = 30 * 60 * 1000; // 30-minute lockout
+const GATE_STORE_KEY    = 'breville_gate_attempts'; // localStorage key for attempt tracking
 
 async function hashCode(str) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
   return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
+function getAttemptData() {
+  try {
+    return JSON.parse(localStorage.getItem(GATE_STORE_KEY) || '{"count":0,"lockedAt":null}');
+  } catch(e) { return {count:0, lockedAt:null}; }
+}
+
+function saveAttemptData(data) {
+  try { localStorage.setItem(GATE_STORE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+function isLocked() {
+  const d = getAttemptData();
+  if (!d.lockedAt) return false;
+  const elapsed = Date.now() - d.lockedAt;
+  if (elapsed >= GATE_LOCKOUT_MS) {
+    // Lockout expired — reset
+    saveAttemptData({count:0, lockedAt:null});
+    return false;
+  }
+  return true;
+}
+
+function minutesRemaining() {
+  const d = getAttemptData();
+  if (!d.lockedAt) return 0;
+  const remaining = GATE_LOCKOUT_MS - (Date.now() - d.lockedAt);
+  return Math.ceil(remaining / 60000);
+}
+
+async function fireGateAlert(attempts) {
+  // Route through the same Supabase Edge Function as all other Slack alerts
+  try {
+    await fetch(`${SUPABASE_URL}/functions/v1/slack-notify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+      },
+      body: JSON.stringify({
+        event: 'gate_lockout',
+        attempts,
+        time: new Date().toLocaleString('en-US', {
+          month:'short', day:'numeric',
+          hour:'numeric', minute:'2-digit',
+          hour12:true, timeZoneName:'short'
+        }),
+        url: window.location.href,
+      })
+    });
+  } catch(e) { console.warn('Gate alert failed:', e.message); }
+}
+
 async function checkGate() {
   const input = document.getElementById('gateInput');
   const err   = document.getElementById('gateError');
-  const val   = input.value.trim().toLowerCase();
+
+  // Check lockout first
+  if (isLocked()) {
+    err.textContent = `Too many attempts. Try again in ${minutesRemaining()} minute${minutesRemaining()!==1?'s':''}.`;
+    input.disabled = true;
+    document.querySelector('.gate-btn').disabled = true;
+    return;
+  }
+
+  const val = input.value.trim().toLowerCase();
   if (!val) { err.textContent = 'Please enter the access code.'; return; }
   const hash = await hashCode(val);
+
   if (hash === GATE_HASH) {
+    // Success — clear attempts and animate in
+    saveAttemptData({count:0, lockedAt:null});
     sessionStorage.setItem('breville_gate', '1');
     input.value = '';
     err.textContent = '';
-    // Animate: swap to happy character, then fade gate out after 1.6s
     document.getElementById('charEmpty').classList.add('char-hidden');
     document.getElementById('charHappy').classList.remove('char-hidden');
     setTimeout(() => {
@@ -4303,23 +4374,52 @@ async function checkGate() {
       setTimeout(() => document.getElementById('accessGate').classList.add('hidden'), 500);
     }, 1600);
   } else {
-    input.classList.add('error');
-    err.textContent = 'Incorrect code. Please check with your team.';
-    setTimeout(()=>input.classList.remove('error'), 400);
-    input.value = '';
-    input.focus();
+    // Wrong code — increment attempt counter
+    const d = getAttemptData();
+    d.count = (d.count || 0) + 1;
+    const remaining = GATE_MAX_ATTEMPTS - d.count;
+
+    if (d.count >= GATE_MAX_ATTEMPTS) {
+      // Lock it down
+      d.lockedAt = Date.now();
+      saveAttemptData(d);
+      input.classList.add('error');
+      input.disabled = true;
+      document.querySelector('.gate-btn').disabled = true;
+      err.textContent = `Too many attempts. Access locked for 30 minutes.`;
+      setTimeout(()=>input.classList.remove('error'), 400);
+      // Fire Slack alert
+      fireGateAlert(d.count);
+    } else {
+      saveAttemptData(d);
+      input.classList.add('error');
+      err.textContent = remaining === 1
+        ? `Incorrect code. 1 attempt remaining before lockout.`
+        : `Incorrect code. ${remaining} attempts remaining.`;
+      setTimeout(()=>input.classList.remove('error'), 400);
+      input.value = '';
+      input.focus();
+    }
   }
 }
 
 (function initGate() {
   if (sessionStorage.getItem('breville_gate') === '1') {
     document.getElementById('accessGate').classList.add('hidden');
+    return;
+  }
+  // Check if currently locked and update UI accordingly
+  if (isLocked()) {
+    const input = document.getElementById('gateInput');
+    const err   = document.getElementById('gateError');
+    if (input)  input.disabled = true;
+    const btn = document.querySelector('.gate-btn');
+    if (btn) btn.disabled = true;
+    if (err) err.textContent = `Too many attempts. Try again in ${minutesRemaining()} minute${minutesRemaining()!==1?'s':''}.`;
   }
   // Prevent Google from indexing sensitive meta description when gate is up
   const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc && sessionStorage.getItem('breville_gate') !== '1') {
-    metaDesc.setAttribute('content', 'Internal tool — access restricted.');
-  }
+  if (metaDesc) metaDesc.setAttribute('content', 'Internal tool — access restricted.');
 })();
 </script>
 </div><!-- /workspace -->
