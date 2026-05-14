@@ -1004,6 +1004,117 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M1 2.5L4 5.5L7 2.5' stroke='%23c0281e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); }
 .status-select option { background:var(--surf1); color:var(--ink); font-weight:500; }
 
+
+/* ═══════════════════════════════════════════
+   SOP — LAUNCH WINDOW SYSTEM
+═══════════════════════════════════════════ */
+.window-strip {
+  display:flex; gap:0; margin-bottom:16px;
+  background:var(--surf1); border:1px solid var(--bdr0);
+  border-radius:10px; overflow:hidden;
+}
+.ws-node {
+  flex:1; padding:10px 8px 9px; text-align:center;
+  border-right:1px solid var(--bdr0); cursor:pointer;
+  transition:background .12s; position:relative;
+}
+.ws-node:last-child { border-right:none; }
+.ws-node:hover { background:var(--surf2); }
+.ws-node.ws-active { background:var(--surf2); }
+.ws-node.ws-active::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height:3px; background:var(--_wc,var(--coffee));
+}
+.ws-node.ws-future { opacity:.45; }
+.ws-label { font-size:10px; font-weight:600; letter-spacing:.3px; color:var(--ink3); margin-bottom:3px; }
+.ws-node.ws-active .ws-label { color:var(--ink); }
+.ws-pct { font-family:var(--f-mono); font-size:12px; font-weight:500; }
+.ws-tasks { font-size:9px; color:var(--ink4); margin-top:1px; }
+
+.hot-flag {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:4px 10px; border-radius:20px;
+  background:var(--red-a); border:1px solid rgba(192,40,30,.2);
+  color:var(--red); font-size:10px; font-weight:700;
+  letter-spacing:.3px; margin-left:8px;
+}
+
+.window-hero {
+  border-radius:10px; border:1px solid var(--bdr0);
+  padding:14px 18px; margin-bottom:14px;
+  display:grid; grid-template-columns:1fr auto;
+  align-items:center; gap:14px;
+  background:var(--surf1);
+}
+.window-hero.wh-calm   { border-left:3px solid var(--grn); }
+.window-hero.wh-watch  { border-left:3px solid var(--gld); }
+.window-hero.wh-soon   { border-left:3px solid var(--org); }
+.window-hero.wh-urgent { border-left:3px solid var(--red); background:var(--red-b); }
+.window-hero.wh-launch { border-left:3px solid var(--grn); background:var(--grn-b); }
+.wh-eyebrow { font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--ink4); margin-bottom:4px; }
+.wh-title   { font-size:15px; font-weight:600; color:var(--ink); margin-bottom:3px; line-height:1.3; }
+.wh-meta    { font-size:11px; color:var(--ink3); }
+.wh-days    { text-align:right; }
+.wh-num     { font-family:var(--f-display); font-size:40px; line-height:1; }
+.wh-lbl     { font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--ink4); margin-top:2px; }
+
+.whats-next-card {
+  background:var(--surf1); border:1px solid var(--bdr0);
+  border-radius:10px; overflow:hidden; margin-bottom:14px;
+}
+.wnc-head {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; border-bottom:1px solid var(--bdr0);
+  background:var(--surf0);
+}
+.wnc-title { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink3); }
+.wnc-sub   { font-size:10px; color:var(--ink4); }
+.wnc-item  { display:grid; grid-template-columns:6px 1fr auto; gap:8px; align-items:flex-start; padding:9px 14px; border-bottom:1px solid var(--bdr0); }
+.wnc-item:last-child { border-bottom:none; }
+.wnc-dot   { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+.wnc-text  { font-size:12px; color:var(--ink); line-height:1.4; }
+.wnc-dept  { font-size:10px; font-weight:600; padding:2px 7px; border-radius:10px; white-space:nowrap; }
+.wnc-empty { padding:14px; font-size:12px; color:var(--ink4); text-align:center; font-style:italic; }
+
+.upcoming-peek {
+  padding:9px 14px; background:var(--surf0);
+  border-top:1px solid var(--bdr0); font-size:11px; color:var(--ink3);
+  display:flex; align-items:center; gap:6px;
+}
+.up-label { font-weight:600; color:var(--ink2); }
+
+.digest-strip {
+  background:var(--surf1); border:1px solid var(--bdr0);
+  border-radius:10px; overflow:hidden; margin-top:14px;
+}
+.ds-head {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; border-bottom:1px solid var(--bdr0); background:var(--surf0);
+}
+.ds-title { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink3); }
+.ds-date  { font-size:10px; color:var(--ink4); }
+.ds-cols  { display:grid; grid-template-columns:1fr 1fr 1fr; }
+.ds-col   { padding:10px 14px; border-right:1px solid var(--bdr0); }
+.ds-col:last-child { border-right:none; }
+.ds-col-lbl { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--ink4); margin-bottom:7px; }
+.ds-item    { display:flex; align-items:flex-start; gap:5px; padding:3px 0; font-size:11px; color:var(--ink2); line-height:1.35; }
+.ds-dot     { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+
+/* Kickoff modal */
+.kickoff-step {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:12px 0; border-bottom:1px solid var(--bdr0);
+}
+.kickoff-step:last-child { border-bottom:none; }
+.ks-num {
+  width:24px; height:24px; border-radius:50%;
+  background:var(--blu-a); color:var(--blu);
+  font-size:11px; font-weight:700;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.ks-label { font-size:12px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.ks-sub   { font-size:11px; color:var(--ink3); line-height:1.4; }
+
 </style>
 
 </head>
@@ -1052,7 +1163,7 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
     <button class="rfbtn" id="sprintBtn" onclick="toggleSprintMode()">
       <span class="rfbtn-icon">⚡</span> Sprint View
     </button>
-    <button class="rfbtn" onclick="openModal('addProjectModal')">
+    <button class="rfbtn" onclick="openModal('addProjectModal');ksResetModal()">
       <span class="rfbtn-icon">＋</span> New Project
     </button>
     <button class="rfbtn" onclick="openArchiveModal()">
@@ -1136,37 +1247,75 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
 
 <!-- ══ MODALS ══ -->
 
-<!-- Add Project -->
+<!-- Add Project — Kickoff Flow -->
 <div class="modal-ov" id="addProjectModal">
-  <div class="modal">
-    <div class="m-title">New Project</div>
-    <div class="mf"><label class="ml">Model Number</label><input class="mi" id="np-model" placeholder="e.g. BES990"></div>
-    <div class="mf"><label class="ml">Product Name</label><input class="mi" id="np-name" placeholder="e.g. Oracle Touch"></div>
-    <div class="mf"><label class="ml">Category</label>
-      <select class="ms" id="np-cat">
-        <option value="coffee">Coffee / Espresso</option>
-        <option value="cooking">Cooking / Smart Oven</option>
-        <option value="foodprep">Food Prep / Blending</option>
-        <option value="water">Water</option>
-        <option value="digital">Digital / Software</option>
-        <option value="other">Other</option>
-      </select>
+  <div class="modal" style="width:500px">
+    <div class="m-title">New Launch Project</div>
+
+    <!-- Step indicator -->
+    <div style="display:flex;gap:6px;margin-bottom:20px;">
+      <div id="ks-ind-1" style="flex:1;height:3px;border-radius:2px;background:var(--blu);transition:background .2s;"></div>
+      <div id="ks-ind-2" style="flex:1;height:3px;border-radius:2px;background:var(--bdr0);transition:background .2s;"></div>
+      <div id="ks-ind-3" style="flex:1;height:3px;border-radius:2px;background:var(--bdr0);transition:background .2s;"></div>
     </div>
-    <div class="mf"><label class="ml">Launch Stage</label>
-      <div class="stage-toggle-row" id="np-stage-row">
-        <button class="stg-btn" onclick="selectNewStage('dev',this)">Development</button>
-        <button class="stg-btn" onclick="selectNewStage('comm',this)">Commercial Go</button>
-        <button class="stg-btn active" data-selected="gtm" style="background:var(--blu);border-color:var(--blu);color:#fff" onclick="selectNewStage('gtm',this)">GTM / Launch</button>
-        <button class="stg-btn" onclick="selectNewStage('live',this)">Live</button>
+
+    <!-- Step 1: Identity -->
+    <div id="ks-step-1">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blu);margin-bottom:14px;">Step 1 of 3 — Project Identity</div>
+      <div class="mf"><label class="ml">Model Number <span style="color:var(--red)">*</span></label><input class="mi" id="np-model" placeholder="e.g. BES990" autofocus></div>
+      <div class="mf"><label class="ml">Product Name</label><input class="mi" id="np-name" placeholder="e.g. Oracle Touch (or leave blank if TBD)"></div>
+      <div class="mf"><label class="ml">Category</label>
+        <select class="ms" id="np-cat">
+          <option value="coffee">Coffee / Espresso</option>
+          <option value="cooking">Cooking / Smart Oven</option>
+          <option value="foodprep">Food Prep / Blending</option>
+          <option value="water">Water</option>
+          <option value="digital">Digital / Software</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="m-acts">
+        <button class="m-cancel" onclick="closeModal('addProjectModal')">Cancel</button>
+        <button class="m-save" onclick="ksNext(1)">Next →</button>
       </div>
     </div>
-    <div class="mf"><label class="ml">Target Launch Date</label><input class="mi" type="date" id="np-date"></div>
-    <div class="mf"><label class="ml">MAP (USD)</label><input class="mi" type="number" id="np-map" placeholder="e.g. 2999.95"></div>
-    <div class="mf"><label class="ml">Notes</label><textarea class="mta" id="np-notes" placeholder="Key context, launch partners, strategic priorities..."></textarea></div>
-    <div class="m-acts">
-      <button class="m-cancel" onclick="closeModal('addProjectModal')">Cancel</button>
-      <button class="m-save" onclick="saveNewProject()">Create Project</button>
+
+    <!-- Step 2: Launch Date (priority) -->
+    <div id="ks-step-2" style="display:none">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blu);margin-bottom:14px;">Step 2 of 3 — Launch Date</div>
+      <div style="background:var(--surf2);border:1px solid var(--bdr0);border-radius:8px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--ink3);line-height:1.6;">
+        This is the most important field. Everything cascades from here — task windows open automatically based on days to launch. You can update it later, but entering it now starts the clock.
+      </div>
+      <div class="mf"><label class="ml">Target Launch Date <span style="color:var(--red)">*</span></label><input class="mi" type="date" id="np-date"></div>
+      <div id="np-hot-warning" style="display:none;margin-top:8px;padding:8px 12px;background:var(--red-b);border:1px solid rgba(192,40,30,.2);border-radius:7px;font-size:11px;color:var(--red);line-height:1.5;">
+        ⚠ <strong>HOT project</strong> — this launch is within 120 days. All applicable task windows will open immediately on creation.
+      </div>
+      <div id="np-window-preview" style="display:none;margin-top:10px;padding:10px 12px;background:var(--grn-b);border:1px solid rgba(40,130,90,.2);border-radius:7px;font-size:11px;color:var(--grn);line-height:1.5;"></div>
+      <div class="m-acts">
+        <button class="m-cancel" onclick="ksBack(2)">← Back</button>
+        <button class="m-save" onclick="ksNext(2)">Next →</button>
+      </div>
     </div>
+
+    <!-- Step 3: Commercial details -->
+    <div id="ks-step-3" style="display:none">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blu);margin-bottom:14px;">Step 3 of 3 — Commercial Details</div>
+      <div class="mf"><label class="ml">Planisware Stage</label>
+        <div class="stage-toggle-row" id="np-stage-row">
+          <button class="stg-btn" onclick="selectNewStage('dev',this)">Development</button>
+          <button class="stg-btn" onclick="selectNewStage('comm',this)">Commercial Go</button>
+          <button class="stg-btn active" data-selected="gtm" style="background:var(--blu);border-color:var(--blu);color:#fff" onclick="selectNewStage('gtm',this)">GTM / Launch</button>
+          <button class="stg-btn" onclick="selectNewStage('live',this)">Live</button>
+        </div>
+      </div>
+      <div class="mf"><label class="ml">MAP (USD)</label><input class="mi" type="number" id="np-map" placeholder="e.g. 2999.95"></div>
+      <div class="mf"><label class="ml">Notes</label><textarea class="mta" id="np-notes" placeholder="Key context, retail partners, strategic priorities..."></textarea></div>
+      <div class="m-acts">
+        <button class="m-cancel" onclick="ksBack(3)">← Back</button>
+        <button class="m-save" onclick="saveNewProject()">Create Project ✓</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1376,6 +1525,89 @@ const STAGE_CFG = {
   post: { label:'Post-Launch',   color:'#3a3a48', bg:'rgba(58,58,72,.3)'     },
 };
 
+
+// ═══════════════════════════════════════════
+//  SOP — TASK WINDOWS & LAUNCH FLOW
+// ═══════════════════════════════════════════
+const WINDOW_CFG = {
+  'T-120': { label:'T-120 · GTM Kickoff',      days:120, color:'#28825a', urgency:'calm'   },
+  'T-90':  { label:'T-90 · Strategy',           days:90,  color:'#28825a', urgency:'calm'   },
+  'T-60':  { label:'T-60 · Production',         days:60,  color:'#9a7018', urgency:'watch'  },
+  'T-30':  { label:'T-30 · Final Checks',       days:30,  color:'#c05818', urgency:'soon'   },
+  'T-14':  { label:'T-14 · Launch Ready',       days:14,  color:'#c0281e', urgency:'urgent' },
+  'T-0':   { label:'Launch Day',                days:0,   color:'#28825a', urgency:'launch' },
+};
+const HOT_THRESHOLD_DAYS = 120; // projects within this window are HOT
+
+// Returns the current active window key for a project given its launch date
+function getActiveWindow(launchDate) {
+  if (!launchDate) return null;
+  const dtl = daysToLaunch(launchDate);
+  if (dtl === null) return null;
+  if (dtl <= 0)   return 'T-0';
+  if (dtl <= 14)  return 'T-14';
+  if (dtl <= 30)  return 'T-30';
+  if (dtl <= 60)  return 'T-60';
+  if (dtl <= 90)  return 'T-90';
+  return 'T-120';
+}
+
+// Returns the window days threshold for a key
+function windowDays(key) {
+  return WINDOW_CFG[key]?.days ?? 120;
+}
+
+// Returns tasks visible in the current window (current window + all earlier passed windows)
+function getVisibleTasks(p) {
+  if (!p.launchDate) return p.tasks; // no date = show all
+  const dtl = daysToLaunch(p.launchDate);
+  if (dtl === null) return p.tasks;
+  // Tasks whose window has opened (days threshold >= current days to launch)
+  return p.tasks.filter(t => {
+    const w = t.window || 'T-60';
+    return windowDays(w) >= (dtl <= 0 ? 0 : dtl);
+  });
+}
+
+// Returns ONLY the current window's tasks (for "what's next" panel)
+function getCurrentWindowTasks(p) {
+  if (!p.launchDate) return [];
+  const key = getActiveWindow(p.launchDate);
+  if (!key) return [];
+  return p.tasks.filter(t => (t.window || 'T-60') === key);
+}
+
+// Returns upcoming window tasks (next window not yet open)
+function getUpcomingWindowTasks(p) {
+  if (!p.launchDate) return [];
+  const dtl = daysToLaunch(p.launchDate);
+  if (dtl === null) return [];
+  const windowOrder = ['T-120','T-90','T-60','T-30','T-14','T-0'];
+  const currentKey = getActiveWindow(p.launchDate);
+  const currentIdx = windowOrder.indexOf(currentKey);
+  const nextKey = windowOrder[currentIdx + 1];
+  if (!nextKey) return [];
+  return p.tasks.filter(t => (t.window || 'T-60') === nextKey);
+}
+
+// Is this project HOT (launch date within 120 days)?
+function isHotProject(p) {
+  if (!p.launchDate) return false;
+  const dtl = daysToLaunch(p.launchDate);
+  return dtl !== null && dtl <= HOT_THRESHOLD_DAYS && dtl >= 0;
+}
+
+// Get window progress: how many tasks in each window are done vs total
+function getWindowProgress(p) {
+  const result = {};
+  Object.keys(WINDOW_CFG).forEach(key => {
+    const wTasks = p.tasks.filter(t => (t.window||'T-60') === key && t.status !== 'na');
+    const done   = wTasks.filter(t => t.status === 'done').length;
+    result[key] = { total: wTasks.length, done, pct: wTasks.length ? Math.round(done/wTasks.length*100) : 0 };
+  });
+  return result;
+}
+
 const DEPT_CFG = {
   product:   { label:'Product',    color:'#5090ff', tagline:'Systems, assets, training & physical readiness' },
   marketing: { label:'Marketing',  color:'#e8304a', tagline:'Campaign readiness, creative assets & brand moments' },
@@ -1388,78 +1620,78 @@ const DEPT_CFG = {
 // Standard task template applied to all new projects
 const TASK_TEMPLATE = [
   // PRODUCT
-  { dept:'product', name:'Fact Sheets: Vault upload, audit & market requirements confirmed', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Product Comparison Matrix: Specs, GTM, comps & PPT updated', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'PIM: Product information accuracy confirmed', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'PIM Pricing: Set via BSD Portal / Jira', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Legal Disclaimers, Warranties & Claims: Reviewed & confirmed', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Check DIMs: Measure & verify accuracy against PIM', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Test Kitchen QC: All testing & inspections complete', owner:'PTK', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Localization: Translations confirmed for all required markets', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Training: Product Bash with PDK — Sales & Marketing review', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Training: BA Training Video for BAs & retail associates', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Training: BA Virtual Hands-on session', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Training: CX Virtual Hands-on session', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Training: Virtual Live Product Demos for Retailers', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'BA Swag Kits: Content brainstormed & sent to team', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Samples (Showroom): Ordered and unpacked', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Samples (Marketing): Quantities confirmed', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Samples (Sales): Quantities confirmed', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Samples (Retailers): Quantities confirmed for photography', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'Samples (CX): Quantities confirmed for Torrance & SA', owner:'PX Lead', status:'na', due:'', notes:'' },
-  { dept:'product', name:'PR Announcement (Internal): Team launch congratulations sent', owner:'PX Lead', status:'na', due:'', notes:'' },
+  { dept:'product', name:'Fact Sheets: Vault upload, audit & market requirements confirmed', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'product', name:'Product Comparison Matrix: Specs, GTM, comps & PPT updated', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'product', name:'PIM: Product information accuracy confirmed', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'product', name:'PIM Pricing: Set via BSD Portal / Jira', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'product', name:'Legal Disclaimers, Warranties & Claims: Reviewed & confirmed', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'product', name:'Check DIMs: Measure & verify accuracy against PIM', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'product', name:'Test Kitchen QC: All testing & inspections complete', owner:'PTK', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'product', name:'Localization: Translations confirmed for all required markets', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'product', name:'Training: Product Bash with PDK — Sales & Marketing review', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'product', name:'Training: BA Training Video for BAs & retail associates', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-30' },
+  { dept:'product', name:'Training: BA Virtual Hands-on session', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-30' },
+  { dept:'product', name:'Training: CX Virtual Hands-on session', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-30' },
+  { dept:'product', name:'Training: Virtual Live Product Demos for Retailers', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-14' },
+  { dept:'product', name:'BA Swag Kits: Content brainstormed & sent to team', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'product', name:'Samples (Showroom): Ordered and unpacked', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'product', name:'Samples (Marketing): Quantities confirmed', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-120' },
+  { dept:'product', name:'Samples (Sales): Quantities confirmed', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-120' },
+  { dept:'product', name:'Samples (Retailers): Quantities confirmed for photography', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'product', name:'Samples (CX): Quantities confirmed for Torrance & SA', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'product', name:'PR Announcement (Internal): Team launch congratulations sent', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-0' },
   // MARKETING
-  { dept:'marketing', name:'Marketing Plan / Spend: Aligned & approved', owner:'Ally', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'DTC Consumer Journey: Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'Product Photography: Vault upload, audit & market reqs confirmed', owner:'Jenn', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'Lifestyle Photography: Vault upload, audit & market reqs confirmed', owner:'Jenn', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'Packaging: Vault upload, audit & market reqs confirmed', owner:'Jeanette', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'Toolkits (POS & Look Books): Vault upload confirmed', owner:'Jeanette', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'Market Messaging & Copy: Developed & reviewed', owner:'Ally', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'Partner Content: Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'Localization of Creative: Region-specific content audited', owner:'Ally', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'PR Event Plan: Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'Product Review Seeding: Complete & linked to DTC', owner:'Jen S.', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'PR Announcement (External): Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' },
-  { dept:'marketing', name:'Email Launch campaign: Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' },
+  { dept:'marketing', name:'Marketing Plan / Spend: Aligned & approved', owner:'Ally', status:'na', due:'', notes:'' , window:'T-120' },
+  { dept:'marketing', name:'DTC Consumer Journey: Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' , window:'T-120' },
+  { dept:'marketing', name:'Product Photography: Vault upload, audit & market reqs confirmed', owner:'Jenn', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'marketing', name:'Lifestyle Photography: Vault upload, audit & market reqs confirmed', owner:'Jenn', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'marketing', name:'Packaging: Vault upload, audit & market reqs confirmed', owner:'Jeanette', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'marketing', name:'Toolkits (POS & Look Books): Vault upload confirmed', owner:'Jeanette', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'marketing', name:'Market Messaging & Copy: Developed & reviewed', owner:'Ally', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'marketing', name:'Partner Content: Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'marketing', name:'Localization of Creative: Region-specific content audited', owner:'Ally', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'marketing', name:'PR Event Plan: Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'marketing', name:'Product Review Seeding: Complete & linked to DTC', owner:'Jen S.', status:'na', due:'', notes:'' , window:'T-30' },
+  { dept:'marketing', name:'PR Announcement (External): Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' , window:'T-14' },
+  { dept:'marketing', name:'Email Launch campaign: Reviewed & approved', owner:'Ally', status:'na', due:'', notes:'' , window:'T-14' },
   // SALES
-  { dept:'sales', name:'Market Go-Live / Embargo Date confirmed', owner:'Sean', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'In-store Assortment & Door Quantities confirmed', owner:'Sean', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'Unit Forecasts confirmed', owner:'Sean', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'Transition Forecast (predecessor run rate)', owner:'Sean', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'Pricing — MAP: Confirmed', owner:'Sean', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'Pricing — Promo: Price points created & scheduled', owner:'Sean', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'Price List sheet updated', owner:'Lisa', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'Item Set-Up Sheets: Created & sent to retailers', owner:'Lisa', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'POs: Confirmed from all retail partners', owner:'Sean', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'Retail Launch Partners confirmed & sequenced', owner:'Sean', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'Distribution Sheet updated', owner:'Lisa', status:'na', due:'', notes:'' },
-  { dept:'sales', name:'Sell-In Decks: Completed & localized for all accounts', owner:'PX Lead', status:'na', due:'', notes:'' },
+  { dept:'sales', name:'Market Go-Live / Embargo Date confirmed', owner:'Sean', status:'na', due:'', notes:'' , window:'T-120' },
+  { dept:'sales', name:'In-store Assortment & Door Quantities confirmed', owner:'Sean', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'sales', name:'Unit Forecasts confirmed', owner:'Sean', status:'na', due:'', notes:'' , window:'T-120' },
+  { dept:'sales', name:'Transition Forecast (predecessor run rate)', owner:'Sean', status:'na', due:'', notes:'' , window:'T-120' },
+  { dept:'sales', name:'Pricing — MAP: Confirmed', owner:'Sean', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'sales', name:'Pricing — Promo: Price points created & scheduled', owner:'Sean', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'sales', name:'Price List sheet updated', owner:'Lisa', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'sales', name:'Item Set-Up Sheets: Created & sent to retailers', owner:'Lisa', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'sales', name:'POs: Confirmed from all retail partners', owner:'Sean', status:'na', due:'', notes:'' , window:'T-30' },
+  { dept:'sales', name:'Retail Launch Partners confirmed & sequenced', owner:'Sean', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'sales', name:'Distribution Sheet updated', owner:'Lisa', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'sales', name:'Sell-In Decks: Completed & localized for all accounts', owner:'PX Lead', status:'na', due:'', notes:'' , window:'T-90' },
   // DTC
-  { dept:'dtc', name:'YouTube Videos: Vault upload confirmed & audited', owner:'Ally', status:'na', due:'', notes:'' },
-  { dept:'dtc', name:'Digital Assets (Website, Programmatic, EDM): Upload & audit approved', owner:'Alec', status:'na', due:'', notes:'' },
-  { dept:'dtc', name:'Social (Videos, Statics, Stories, Keynotes): Upload & audit approved', owner:'Alec', status:'na', due:'', notes:'' },
-  { dept:'dtc', name:'Program Scheduling: Built, reviewed & approved', owner:'Alec', status:'na', due:'', notes:'' },
-  { dept:'dtc', name:'PDP UAT: Audited & approved', owner:'Alec', status:'na', due:'', notes:'' },
-  { dept:'dtc', name:'SEO Optimization complete', owner:'Alec', status:'na', due:'', notes:'' },
-  { dept:'dtc', name:'DTC Bundling / Cross-Linking: Complete', owner:'Alec', status:'na', due:'', notes:'' },
-  { dept:'dtc', name:'Search: Key terms added to Algolia', owner:'Alec', status:'na', due:'', notes:'' },
-  { dept:'dtc', name:'Web Assets: Homepage hero & misc assets designed', owner:'Alec', status:'na', due:'', notes:'' },
-  { dept:'dtc', name:'DTC PDP Page: Live (2 weeks prior to launch)', owner:'Alec', status:'na', due:'', notes:'' },
+  { dept:'dtc', name:'YouTube Videos: Vault upload confirmed & audited', owner:'Ally', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'dtc', name:'Digital Assets (Website, Programmatic, EDM): Upload & audit approved', owner:'Alec', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'dtc', name:'Social (Videos, Statics, Stories, Keynotes): Upload & audit approved', owner:'Alec', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'dtc', name:'Program Scheduling: Built, reviewed & approved', owner:'Alec', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'dtc', name:'PDP UAT: Audited & approved', owner:'Alec', status:'na', due:'', notes:'' , window:'T-14' },
+  { dept:'dtc', name:'SEO Optimization complete', owner:'Alec', status:'na', due:'', notes:'' , window:'T-30' },
+  { dept:'dtc', name:'DTC Bundling / Cross-Linking: Complete', owner:'Alec', status:'na', due:'', notes:'' , window:'T-30' },
+  { dept:'dtc', name:'Search: Key terms added to Algolia', owner:'Alec', status:'na', due:'', notes:'' , window:'T-14' },
+  { dept:'dtc', name:'Web Assets: Homepage hero & misc assets designed', owner:'Alec', status:'na', due:'', notes:'' , window:'T-30' },
+  { dept:'dtc', name:'DTC PDP Page: Live (2 weeks prior to launch)', owner:'Alec', status:'na', due:'', notes:'' , window:'T-14' },
   // LOGISTICS
-  { dept:'logistics', name:'D365: Item code, GTIN & UPC codes reviewed', owner:'Colin', status:'na', due:'', notes:'' },
-  { dept:'logistics', name:'D365: Dimensions per unit, ea & case confirmed', owner:'Colin', status:'na', due:'', notes:'' },
-  { dept:'logistics', name:'D365: Pricing / external SKU numbers set up', owner:'Colin', status:'na', due:'', notes:'' },
-  { dept:'logistics', name:'Initial Product QC: Master data for box, machine, 3PL validated', owner:'Anna', status:'na', due:'', notes:'' },
-  { dept:'logistics', name:'Serialization: Confirmed (Y/N)', owner:'Colin', status:'na', due:'', notes:'' },
-  { dept:'logistics', name:'Customs: Compliance checks confirmed', owner:'Colin', status:'na', due:'', notes:'' },
-  { dept:'logistics', name:'D365: Information matches final product', owner:'Colin', status:'na', due:'', notes:'' },
+  { dept:'logistics', name:'D365: Item code, GTIN & UPC codes reviewed', owner:'Colin', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'logistics', name:'D365: Dimensions per unit, ea & case confirmed', owner:'Colin', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'logistics', name:'D365: Pricing / external SKU numbers set up', owner:'Colin', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'logistics', name:'Initial Product QC: Master data for box, machine, 3PL validated', owner:'Anna', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'logistics', name:'Serialization: Confirmed (Y/N)', owner:'Colin', status:'na', due:'', notes:'' , window:'T-90' },
+  { dept:'logistics', name:'Customs: Compliance checks confirmed', owner:'Colin', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'logistics', name:'D365: Information matches final product', owner:'Colin', status:'na', due:'', notes:'' , window:'T-30' },
   // CX
-  { dept:'cx', name:'Instruction Booklets: Delivery confirmed, incl. all languages', owner:'Mayra', status:'na', due:'', notes:'' },
-  { dept:'cx', name:'Instruction Booklets: Audited for errors & missing items', owner:'Mayra', status:'na', due:'', notes:'' },
-  { dept:'cx', name:'Instruction Booklets: Vault upload confirmed', owner:'Mayra', status:'na', due:'', notes:'' },
-  { dept:'cx', name:'Salesforce Training: Complete', owner:'Mayra', status:'na', due:'', notes:'' },
-  { dept:'cx', name:'FAQ / Q&A Sheets: Developed & complete', owner:'Mayra', status:'na', due:'', notes:'' },
+  { dept:'cx', name:'Instruction Booklets: Delivery confirmed, incl. all languages', owner:'Mayra', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'cx', name:'Instruction Booklets: Audited for errors & missing items', owner:'Mayra', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'cx', name:'Instruction Booklets: Vault upload confirmed', owner:'Mayra', status:'na', due:'', notes:'' , window:'T-60' },
+  { dept:'cx', name:'Salesforce Training: Complete', owner:'Mayra', status:'na', due:'', notes:'' , window:'T-30' },
+  { dept:'cx', name:'FAQ / Q&A Sheets: Developed & complete', owner:'Mayra', status:'na', due:'', notes:'' , window:'T-30' },
 ];
 
 const RETAILER_TEMPLATE = [
@@ -2120,6 +2352,40 @@ function renderHome() {
     </div>
   `;
 
+  // ── Countdown hero for the most urgent active GTM project ──
+  const heroProject = state.projects
+    .filter(p => p.launchDate && ['gtm','comm'].includes(p.stage))
+    .sort((a,b) => new Date(a.launchDate)-new Date(b.launchDate))[0];
+
+  if (heroProject) {
+    const dtl = daysToLaunch(heroProject.launchDate);
+    const wKey = getActiveWindow(heroProject.launchDate);
+    const wCfg = WINDOW_CFG[wKey] || WINDOW_CFG['T-120'];
+    const urgency = dtl !== null && dtl <= 14 ? 'urgent' : dtl !== null && dtl <= 30 ? 'soon' : dtl !== null && dtl <= 60 ? 'watch' : 'calm';
+    const heroTitle = dtl === null ? 'Set a launch date to start the clock' :
+      dtl <= 7  ? `T-${dtl} — Critical path only` :
+      dtl <= 14 ? `T-${dtl} — Final launch checks` :
+      dtl <= 30 ? `T-${dtl} — Final push` :
+      dtl <= 60 ? `T-${dtl} — Production window` :
+      dtl <= 90 ? `T-${dtl} — Strategy window` :
+      `T-${dtl} — GTM kickoff window`;
+    const s = getStats(heroProject.tasks);
+    const hotBadge = isHotProject(heroProject) ? '<span class="hot-flag">🔥 HOT</span>' : '';
+    document.getElementById('homeKPIs').insertAdjacentHTML('afterend', `
+      <div class="window-hero wh-${urgency}" style="margin-bottom:16px">
+        <div>
+          <div class="wh-eyebrow">${heroProject.model}${heroProject.name!=='TBD'?' · '+heroProject.name:''} · ${wCfg.label} ${hotBadge}</div>
+          <div class="wh-title">${heroTitle}</div>
+          <div class="wh-meta">${s.pct}% ready · ${s.done} done · ${s.blk} blocked · ${heroProject.launchDate ? new Date(heroProject.launchDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : 'No date set'}</div>
+        </div>
+        <div class="wh-days">
+          <div class="wh-num" style="color:${wCfg.color}">${dtl !== null && dtl >= 0 ? dtl : '🚀'}</div>
+          <div class="wh-lbl">${dtl !== null && dtl > 0 ? 'days to launch' : dtl === 0 ? 'launch today' : 'launched'}</div>
+        </div>
+      </div>
+    `);
+  }
+
   // Pipeline strip — only show for projects with Planisware data
   const pwProjects = state.projects.filter(p => p.planisware);
   let pipelineHtml = '';
@@ -2216,7 +2482,7 @@ function renderHome() {
         </div>
       </div>`;
   });
-  html += `<div class="add-project-card" onclick="openModal('addProjectModal')"><div class="plus">＋</div><div>New Project</div></div>`;
+  html += `<div class="add-project-card" onclick="openModal('addProjectModal');ksResetModal()"><div class="plus">＋</div><div>New Project</div></div>`;
 
   const gridEl = document.getElementById('homeGrid');
   gridEl.innerHTML = html;
@@ -2285,6 +2551,67 @@ function renderTopbar() {
 // ═══════════════════════════════════════════
 //  TRACKER VIEW
 // ═══════════════════════════════════════════
+
+function renderWindowStrip(p) {
+  if (!p.launchDate) return '';
+  const windowOrder = ['T-120','T-90','T-60','T-30','T-14','T-0'];
+  const currentKey  = getActiveWindow(p.launchDate);
+  const currentIdx  = windowOrder.indexOf(currentKey);
+  const wp = getWindowProgress(p);
+
+  const nodes = windowOrder.map((key, i) => {
+    const cfg   = WINDOW_CFG[key];
+    const prog  = wp[key];
+    const isPast   = i < currentIdx;
+    const isCurrent= i === currentIdx;
+    const isFuture = i > currentIdx;
+    const cls = isCurrent ? 'ws-node ws-active' : isFuture ? 'ws-node ws-future' : 'ws-node';
+    const pctStr = prog.total > 0 ? prog.pct + '%' : '—';
+    const pctColor2 = isFuture ? 'var(--ink4)' : prog.pct >= 80 ? 'var(--grn)' : prog.pct >= 40 ? 'var(--org)' : 'var(--red)';
+    return `<div class="${cls}" style="--_wc:${cfg.color}" onclick="selectDept('${p.id}','${p.activeDept||'product'}')">
+      <div class="ws-label">${key}</div>
+      <div class="ws-pct" style="color:${isFuture?'var(--ink4)':pctColor2}">${pctStr}</div>
+      <div class="ws-tasks">${isFuture ? cfg.days+'d out' : prog.done+'/'+prog.total}</div>
+    </div>`;
+  }).join('');
+
+  // What's next card — current window tasks not yet done
+  const currentTasks = p.tasks.filter(t => (t.window||'T-60') === currentKey && t.status !== 'done' && t.status !== 'na');
+  const upcomingTasks = getUpcomingWindowTasks(p).slice(0,3);
+  const hotBadge = isHotProject(p) ? '<span class="hot-flag" style="margin-left:8px">🔥 HOT</span>' : '';
+  const dtl = daysToLaunch(p.launchDate);
+  const wCfg = WINDOW_CFG[currentKey] || WINDOW_CFG['T-120'];
+
+  let whatsNextHtml = '';
+  if (currentTasks.length > 0) {
+    const items = currentTasks.slice(0,5).map(t => {
+      const dc = DEPT_CFG[t.dept];
+      const sc = t.status === 'blocked' ? 'var(--red)' : 'var(--org)';
+      return `<div class="wnc-item">
+        <div class="wnc-dot" style="background:${sc}"></div>
+        <div class="wnc-text">${t.name}</div>
+        <span class="wnc-dept" style="background:${dc.color}22;color:${dc.color}">${dc.label}</span>
+      </div>`;
+    }).join('');
+    const moreCount = currentTasks.length > 5 ? currentTasks.length - 5 : 0;
+    const moreHtml = moreCount > 0 ? `<div class="wnc-empty">+${moreCount} more in this window</div>` : '';
+    const upPeek = upcomingTasks.length > 0 ? `<div class="upcoming-peek"><span class="up-label">Coming up (${WINDOW_CFG[getActiveWindow(p.launchDate)] ? Object.keys(WINDOW_CFG)[Object.keys(WINDOW_CFG).indexOf(currentKey)+1] : ''})</span> — ${upcomingTasks.map(t=>t.name.split(':')[0]).join(' · ')}</div>` : '';
+    whatsNextHtml = `
+      <div class="whats-next-card" style="grid-column:1/-1;margin:0 20px 14px">
+        <div class="wnc-head">
+          <span class="wnc-title">${currentTasks.length} task${currentTasks.length!==1?'s':''} in this window${hotBadge}</span>
+          <span class="wnc-sub">${wCfg.label} · ${dtl > 0 ? dtl+'d to launch' : 'Launch week'}</span>
+        </div>
+        ${items}${moreHtml}${upPeek}
+      </div>`;
+  }
+
+  return `<div style="grid-column:1/-1">
+    <div class="window-strip" style="margin:14px 20px 0">${nodes}</div>
+    ${whatsNextHtml}
+  </div>`;
+}
+
 function renderTracker() {
   const p = activeProject();
   if (!p) return;
@@ -2312,6 +2639,7 @@ function renderTracker() {
 
   let html = `
     ${setupBanner}
+    ${renderWindowStrip(p)}
     <div class="tracker-hero">
       <div class="th-left">
         <div class="th-eyebrow" style="color:${cc}">${p.model} · ${CAT_CFG[p.category]?.label} · Launch Tracker</div>
@@ -3089,6 +3417,83 @@ function updateSprintProject(col, pid) {
   renderSprint();
 }
 
+
+// ── Kickoff modal step navigation ──
+function ksNext(step) {
+  if (step === 1) {
+    if (!document.getElementById('np-model').value.trim()) {
+      alert('Please enter a model number to continue.');
+      return;
+    }
+    document.getElementById('ks-step-1').style.display = 'none';
+    document.getElementById('ks-step-2').style.display = 'block';
+    document.getElementById('ks-ind-2').style.background = 'var(--blu)';
+    document.getElementById('np-date').focus();
+    return;
+  }
+  if (step === 2) {
+    document.getElementById('ks-step-2').style.display = 'none';
+    document.getElementById('ks-step-3').style.display = 'block';
+    document.getElementById('ks-ind-3').style.background = 'var(--blu)';
+    return;
+  }
+}
+function ksBack(step) {
+  if (step === 2) {
+    document.getElementById('ks-step-2').style.display = 'none';
+    document.getElementById('ks-step-1').style.display = 'block';
+    document.getElementById('ks-ind-2').style.background = 'var(--bdr0)';
+    return;
+  }
+  if (step === 3) {
+    document.getElementById('ks-step-3').style.display = 'none';
+    document.getElementById('ks-step-2').style.display = 'block';
+    document.getElementById('ks-ind-3').style.background = 'var(--bdr0)';
+    return;
+  }
+}
+function ksResetModal() {
+  ['ks-step-2','ks-step-3'].forEach(id => document.getElementById(id).style.display='none');
+  document.getElementById('ks-step-1').style.display = 'block';
+  document.getElementById('ks-ind-2').style.background = 'var(--bdr0)';
+  document.getElementById('ks-ind-3').style.background = 'var(--bdr0)';
+  document.getElementById('np-hot-warning').style.display = 'none';
+  document.getElementById('np-window-preview').style.display = 'none';
+}
+
+// Live HOT/window preview as launch date is typed
+document.addEventListener('input', function(e) {
+  if (e.target.id !== 'np-date') return;
+  const val = e.target.value;
+  if (!val) {
+    document.getElementById('np-hot-warning').style.display = 'none';
+    document.getElementById('np-window-preview').style.display = 'none';
+    return;
+  }
+  const dtl = Math.ceil((new Date(val) - new Date()) / 86400000);
+  const hotWarn = document.getElementById('np-hot-warning');
+  const preview = document.getElementById('np-window-preview');
+  if (dtl <= 0) {
+    hotWarn.style.display = 'none';
+    preview.style.display = 'block';
+    preview.textContent = '✓ Launch date is in the past — project will open in post-launch mode.';
+    return;
+  }
+  if (dtl <= 120) {
+    hotWarn.style.display = 'block';
+    preview.style.display = 'none';
+  } else {
+    hotWarn.style.display = 'none';
+    const windowKey = dtl > 90 ? 'T-120' : dtl > 60 ? 'T-90' : dtl > 30 ? 'T-60' : dtl > 14 ? 'T-30' : 'T-14';
+    const counts = { 'T-120':7, 'T-90':17, 'T-60':25, 'T-30':11, 'T-14':6 };
+    preview.style.display = 'block';
+    preview.style.color = 'var(--grn)';
+    preview.style.background = 'var(--grn-b)';
+    preview.style.borderColor = 'rgba(40,130,90,.2)';
+    preview.textContent = '✓ ' + dtl + ' days to launch — project opens in the ' + windowKey + ' window with ' + (counts[windowKey]||7) + ' tasks unlocked initially.';
+  }
+});
+
 // ═══════════════════════════════════════════
 //  ADD PROJECT
 // ═══════════════════════════════════════════
@@ -3131,6 +3536,7 @@ function saveNewProject() {
   state.activeProjectId = p.id;
   save();
   closeModal('addProjectModal');
+  ksResetModal();
   // Reset form
   ['np-model','np-name','np-date','np-map','np-notes'].forEach(id=>document.getElementById(id).value='');
   // Reset stage buttons back to GTM default
