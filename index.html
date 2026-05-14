@@ -3515,8 +3515,8 @@ function selectNewStage(stage, btn) {
 function saveNewProject() {
   const model = document.getElementById('np-model').value.trim();
   if (!model) return;
-  if (state.projects.length >= 10) {
-    alert('You have 10 active projects. Archive one to add a new one.');
+  if (state.projects.length >= 20) {
+    alert('You have 20 active projects. Archive one to add a new one.');
     closeModal('addProjectModal');
     return;
   }
