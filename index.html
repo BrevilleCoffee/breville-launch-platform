@@ -202,6 +202,11 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
 .rpill-bar{height:2px;background:var(--bdr0);border-radius:1px;overflow:hidden;}
 .rpill-fill{height:100%;border-radius:1px;transition:width .4s;}
 .rpill-edit{position:absolute;top:10px;right:10px;background:none;border:none;cursor:pointer;color:var(--ink4);font-size:12px;padding:2px 4px;border-radius:4px;opacity:0;transition:opacity .15s;z-index:2;}
+.rpill-drag{position:absolute;top:50%;left:0;transform:translateY(-50%);width:14px;display:flex;align-items:center;justify-content:center;cursor:grab;color:var(--bdr2);font-size:11px;opacity:0;transition:opacity .15s;z-index:2;user-select:none;}
+.rpill-drag:active{cursor:grabbing;}
+.rpill:hover .rpill-drag{opacity:1;}
+.rpill.drag-over{border-color:var(--coffee);background:var(--surf2);}
+.rpill.dragging{opacity:.4;}
 .rpill:hover .rpill-edit{opacity:1;}
 .rpill-edit:hover{color:var(--blu);background:var(--blu-a);}
 .rail-foot{padding:8px;border-top:2px solid var(--bdr0);flex-shrink:0;display:flex;flex-direction:column;gap:3px;}
@@ -1160,6 +1165,9 @@ body{font-family:var(--f-body);background:var(--bg);color:var(--ink);display:fle
   <div class="rail-sec">Active Projects</div>
   <div class="rail-list" id="railList"></div>
   <div class="rail-foot">
+    <button class="rfbtn on" id="autoSortBtn" onclick="toggleAutoSort()" title="Auto-sorting by launch date — click to switch to manual order">
+      <span class="rfbtn-icon">↕</span> Auto-sort by Date
+    </button>
     <button class="rfbtn" id="sprintBtn" onclick="toggleSprintMode()">
       <span class="rfbtn-icon">⚡</span> Sprint View
     </button>
@@ -1778,6 +1786,8 @@ let state = {
   activeView: 'home',
   sprintMode: false,
   sprintProjects: [null, null],
+  projectOrder: [],      // manual order — array of project IDs
+  autoSort: true,        // true = sort by launch date; false = manual order
 };
 
 // ═══════════════════════════════════════════
@@ -2181,15 +2191,117 @@ function escHtml(s)     { return String(s).replace(/&/g,'&amp;').replace(/"/g,'&
 // ═══════════════════════════════════════════
 //  RAIL
 // ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
+//  PROJECT SORT / ORDER
+// ═══════════════════════════════════════════
+function getSortedProjects() {
+  if (state.autoSort) {
+    return [...state.projects].sort((a, b) => {
+      if (a.launchDate && b.launchDate) return new Date(a.launchDate) - new Date(b.launchDate);
+      if (a.launchDate) return -1;
+      if (b.launchDate) return 1;
+      return 0;
+    });
+  }
+  // Manual order — respect projectOrder array, append any not yet in it
+  const order = state.projectOrder || [];
+  const sorted = [];
+  order.forEach(id => {
+    const p = state.projects.find(x => x.id === id);
+    if (p) sorted.push(p);
+  });
+  state.projects.forEach(p => {
+    if (!sorted.find(x => x.id === p.id)) sorted.push(p);
+  });
+  return sorted;
+}
+
+function toggleAutoSort() {
+  state.autoSort = !state.autoSort;
+  if (state.autoSort) {
+    state.projectOrder = [];
+  } else {
+    // Capture current auto-sorted order as starting manual order
+    state.projectOrder = getSortedProjects().map(p => p.id);
+  }
+  save();
+  renderRail();
+}
+
+// Drag state
+let _dragSrcId = null;
+
+function onDragStart(e, id) {
+  _dragSrcId = id;
+  e.dataTransfer.effectAllowed = 'move';
+  // Switch to manual mode on first drag
+  if (state.autoSort) {
+    state.autoSort = false;
+    state.projectOrder = getSortedProjects().map(p => p.id);
+  }
+  setTimeout(() => {
+    const el = document.querySelector(\`.rpill[data-id="\${id}"]\`);
+    if (el) el.classList.add('dragging');
+  }, 0);
+}
+
+function onDragOver(e, id) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  document.querySelectorAll('.rpill.drag-over').forEach(el => el.classList.remove('drag-over'));
+  const el = document.querySelector(\`.rpill[data-id="\${id}"]\`);
+  if (el && id !== _dragSrcId) el.classList.add('drag-over');
+}
+
+function onDragLeave(id) {
+  const el = document.querySelector(\`.rpill[data-id="\${id}"]\`);
+  if (el) el.classList.remove('drag-over');
+}
+
+function onDrop(e, targetId) {
+  e.preventDefault();
+  document.querySelectorAll('.rpill.drag-over, .rpill.dragging').forEach(el => {
+    el.classList.remove('drag-over', 'dragging');
+  });
+  if (!_dragSrcId || _dragSrcId === targetId) return;
+  const order = state.projectOrder.length ? [...state.projectOrder] : getSortedProjects().map(p => p.id);
+  const fromIdx = order.indexOf(_dragSrcId);
+  const toIdx   = order.indexOf(targetId);
+  if (fromIdx === -1 || toIdx === -1) return;
+  order.splice(fromIdx, 1);
+  order.splice(toIdx, 0, _dragSrcId);
+  state.projectOrder = order;
+  _dragSrcId = null;
+  save();
+  renderRail();
+}
+
+function onDragEnd() {
+  _dragSrcId = null;
+  document.querySelectorAll('.rpill.drag-over, .rpill.dragging').forEach(el => {
+    el.classList.remove('drag-over', 'dragging');
+  });
+}
+
 function renderRail() {
   const el = document.getElementById('railList');
   let html = '';
-  state.projects.forEach(p => {
+  const sorted = getSortedProjects();
+  sorted.forEach(p => {
     const s = getStats(p.tasks);
     const cc = catColor(p.category);
     const isActive = p.id === state.activeProjectId && !state.sprintMode;
     html += `
-      <div class="rpill ${isActive?'active':''}" style="--_cat:${cc}" onclick="selectProject('${p.id}')">
+      <div class="rpill ${isActive?'active':''}" style="--_cat:${cc}"
+        data-id="${p.id}"
+        draggable="true"
+        onclick="selectProject('${p.id}')"
+        ondragstart="onDragStart(event,'${p.id}')"
+        ondragover="onDragOver(event,'${p.id}')"
+        ondragleave="onDragLeave('${p.id}')"
+        ondrop="onDrop(event,'${p.id}')"
+        ondragend="onDragEnd()">
+        <div class="rpill-drag" onclick="event.stopPropagation()" title="Drag to reorder">⠿</div>
         <button class="rpill-edit" onclick="event.stopPropagation();openEditProject('${p.id}')" title="Edit project">✎</button>
         <div class="rpill-top">
           <span class="rpill-model">${p.model}</span>
@@ -2205,6 +2317,12 @@ function renderRail() {
   });
   el.innerHTML = html;
   document.getElementById('sprintBtn').className = state.sprintMode ? 'rfbtn on' : 'rfbtn';
+  // Update auto-sort button state
+  const sortBtn = document.getElementById('autoSortBtn');
+  if (sortBtn) {
+    sortBtn.className = state.autoSort ? 'rfbtn on' : 'rfbtn';
+    sortBtn.title = state.autoSort ? 'Auto-sorting by launch date — click to switch to manual order' : 'Manual order active — click to auto-sort by launch date';
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -2441,7 +2559,7 @@ function renderHome() {
 
   // Project cards
   let html = '';
-  state.projects.forEach(p => {
+  getSortedProjects().forEach(p => {
     const s = getStats(p.tasks);
     const cc = catColor(p.category);
     const dtl = daysToLaunch(p.launchDate);
