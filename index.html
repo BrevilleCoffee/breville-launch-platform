@@ -2240,7 +2240,7 @@ function onDragStart(e, id) {
     state.projectOrder = getSortedProjects().map(p => p.id);
   }
   setTimeout(() => {
-    const el = document.querySelector(\`.rpill[data-id="\${id}"]\`);
+    const el = document.querySelector(`.rpill[data-id="${id}"]`);
     if (el) el.classList.add('dragging');
   }, 0);
 }
@@ -2249,12 +2249,12 @@ function onDragOver(e, id) {
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
   document.querySelectorAll('.rpill.drag-over').forEach(el => el.classList.remove('drag-over'));
-  const el = document.querySelector(\`.rpill[data-id="\${id}"]\`);
+  const el = document.querySelector(`.rpill[data-id="${id}"]`);
   if (el && id !== _dragSrcId) el.classList.add('drag-over');
 }
 
 function onDragLeave(id) {
-  const el = document.querySelector(\`.rpill[data-id="\${id}"]\`);
+  const el = document.querySelector(`.rpill[data-id="${id}"]`);
   if (el) el.classList.remove('drag-over');
 }
 
@@ -4761,7 +4761,7 @@ function renderAll() {
 // ═══════════════════════════════════════════
 //  BOOT — async so Supabase load can await
 // ═══════════════════════════════════════════
-(async function boot() {
+async function boot() {
   // Show connecting state while we hit Supabase
   const railList = document.getElementById('railList');
   if (railList) railList.innerHTML =
@@ -4797,7 +4797,7 @@ function renderAll() {
   startRealtime();
   renderAll();
   showView(state.activeView || 'home');
-})();
+}
 
 // ═══════════════════════════════════════════
 //  ACCESS GATE
@@ -4895,7 +4895,10 @@ async function checkGate() {
     setTimeout(() => {
       document.getElementById('accessGate').style.transition = 'opacity .5s ease';
       document.getElementById('accessGate').style.opacity = '0';
-      setTimeout(() => document.getElementById('accessGate').classList.add('hidden'), 500);
+      setTimeout(() => {
+        document.getElementById('accessGate').classList.add('hidden');
+        boot();
+      }, 500);
     }, 1600);
   } else {
     // Wrong code — increment attempt counter
@@ -4930,6 +4933,7 @@ async function checkGate() {
 (function initGate() {
   if (sessionStorage.getItem('breville_gate') === '1') {
     document.getElementById('accessGate').classList.add('hidden');
+    boot();
     return;
   }
   // Check if currently locked and update UI accordingly
